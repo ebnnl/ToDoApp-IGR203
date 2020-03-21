@@ -3,11 +3,15 @@ package com.example.todolist;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.net.LinkAddress;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -17,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private DAOBase dataBase; // Base de données sur laquelle agir
 
+    private FloatingActionButton addButton; // Bouton pour ouvrir l'activité de création de tâche
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -81,5 +86,17 @@ public class MainActivity extends AppCompatActivity {
                 linearLayoutTest.addView(taskNameTextView);
             }
         }
+
+
+        // Configuration addButton
+        addButton = findViewById(R.id.activity_main_add_button);
+        addButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent createTaskActivity = new Intent(MainActivity.this, CreateTaskActivity.class);
+                startActivity(createTaskActivity);
+                MainActivity.this.finish();
+            }
+        });
     }
 }

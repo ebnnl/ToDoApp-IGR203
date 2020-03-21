@@ -63,6 +63,15 @@ public class GroupsList {
         group.removeTask(task);
     }
 
+    public List<String> getNames(){
+        List<String> names = new ArrayList<String>();
+        for (int i=0; i<list.size(); i++){
+            Group group = list.get(i);
+            names.add(group.getName());
+        }
+        return names;
+    }
+
     public void removeGroup(Group group){
         list.remove(group);
     }
