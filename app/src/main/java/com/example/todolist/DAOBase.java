@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -39,7 +40,7 @@ public class DAOBase {
         while (cursorParticipant.moveToNext()){
             String participant_name = cursorParticipant.getString(0);
             String group_name = cursorParticipant.getString(1);
-
+            String color = cursorParticipant.getString(2);
             // Si le groupe "group_name" n'a pas encore été créé, le créer et l'ajouter à la liste
             if (!groupsList.contains(group_name)){
                 Group group = new Group(group_name);
@@ -47,7 +48,8 @@ public class DAOBase {
             }
             // Ajouter la personne "participant_name" au groupe
             Group group = groupsList.getGroup(group_name);
-            Person person = new Person(participant_name);
+            Person person = new Person(participant_name, color);
+
             group.addPerson(person);
         }
         cursorParticipant.close();
@@ -63,8 +65,9 @@ public class DAOBase {
 
             // Récupérer le groupe la liste des groupes
             Group group = groupsList.getGroup(group_name);
+            Person person = group.getPerson(participant_name);
             // Ajouter la tâche à ce groupe
-            Task task = new Task(name, priority, new Date(deadline), group, new Person(participant_name));
+            Task task = new Task(name, priority, new Date(deadline), group, person);
             group.addTask(task);
         }
         cursorTask.close();
@@ -107,6 +110,7 @@ public class DAOBase {
                 ContentValues value = new ContentValues();
                 value.put("participant_name", person.getName());
                 value.put("group_name", group.getName());
+                value.put("color", person.getColor());
                 mDb.insert("participants", null, value);
             }
             groupsList.addGroup(group);
@@ -118,6 +122,7 @@ public class DAOBase {
         ContentValues value = new ContentValues();
         value.put("participant_name", person.getName());
         value.put("group_name", group.getName());
+        value.put("color", person.getColor());
         mDb.insert("participants", null, value);
         groupsList.addPerson(person, group.getName());
     }

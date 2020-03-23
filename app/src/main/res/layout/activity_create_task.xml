@@ -56,13 +56,23 @@
                 android:text="Responsable : "
                 android:textAppearance="@style/OrangeText"></TextView>
 
-            <LinearLayout
+            <HorizontalScrollView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:id="@+id/activity_create_task_responsible_layout">
 
+                <RadioGroup
+                    android:id="@+id/activity_create_task_responsible_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:isScrollContainer="true"
+                    android:orientation="horizontal">
 
-            </LinearLayout>
+                </RadioGroup>
+
+            </HorizontalScrollView>
 
             <TextView
                 android:layout_width="wrap_content"

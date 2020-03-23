@@ -6,14 +6,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -31,6 +36,7 @@ public class CreateTaskActivity extends AppCompatActivity {
     private EditText nameEditText; // Champ pour entrer le nom de la tâche
     private FloatingActionButton validateButton; // Bouton pour enregistrer
     private Spinner groupSpinner; // Spinner pour choisir le groupe
+    private RadioGroup responsibleRadioGroup; // Ensemble de radio button pour choisir le responsable
 
     private String name; // Nom de la tâche
     private Date deadline = new Date(00000000);
@@ -54,6 +60,7 @@ public class CreateTaskActivity extends AppCompatActivity {
         nameEditText = (EditText) findViewById(R.id.activity_create_task_name_input);
         validateButton = findViewById(R.id.activity_create_task_validate);
         groupSpinner = (Spinner) findViewById(R.id.activity_create_task_group_spinner);
+        responsibleRadioGroup = findViewById(R.id.activity_create_task_responsible_group);
 
         validateButton.setEnabled(false); // Initialement, on ne peut pas valider (attendre qu'un nom
         // de tâche soit entré)
@@ -90,12 +97,24 @@ public class CreateTaskActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 groupName = (String) groupSpinner.getItemAtPosition(position);
+                updateResponsibles(); // Mettre à jour la liste des responsables en fonction du groupe
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
+        });
+
+        // Réaction au choix du responsable :
+        responsibleRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                List<Person> persons = groupsList.getGroup(groupName).getPersons();
+               responsibleName = persons.get(checkedId).getName();
+            }
+
         });
 
 
@@ -109,7 +128,7 @@ public class CreateTaskActivity extends AppCompatActivity {
                 toast.show();
                 // Ajouter la tâche à la base
                 Group group = groupsList.getGroup(groupName);
-                Person person = new Person(responsibleName);
+                Person person = group.getPerson(responsibleName);
                 Task newTask = new Task(name, priority, deadline, group, person);
                 dataBase.addTask(newTask);
 
@@ -121,5 +140,28 @@ public class CreateTaskActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    // Fonction pour mettre à jour la liste des responsables
+    public void updateResponsibles(){
+        // Récupérer la liste des personnes
+        List<Person> persons = groupsList.getGroup(groupName).getPersons();
+        // Vider l'ensemble des radio button
+        responsibleRadioGroup.removeAllViews();
+        // Ajouter un radio Button pour chaque personne
+        for (int i=0; i<persons.size(); i++){
+            Person person = persons.get(i);
+            RadioButton radioButtonPerson = new RadioButton(this);
+            radioButtonPerson.setText(person.getName());
+            radioButtonPerson.setId(i);
+            int image = person.getImage();
+            Drawable img = this.getResources().getDrawable(image);
+            img.setBounds(0, 0, 150, 150);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                radioButtonPerson.setBackground(img);
+            }
+            radioButtonPerson.setGravity(Gravity.BOTTOM);
+            responsibleRadioGroup.addView(radioButtonPerson);
+        }
     }
 }

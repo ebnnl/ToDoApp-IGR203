@@ -40,10 +40,10 @@ public class MainActivity extends AppCompatActivity {
         // Créer les données
         Group groupColoc = new Group("Coloc");
         Group groupIGR = new Group("Projet IGR");
-        Person personMe = new Person("Moi");
-        Person personAlice = new Person("Alice");
-        Person personBob = new Person("Bob");
-        Person personChloe = new Person("Chloe");
+        Person personMe = new Person("Moi", "yellow");
+        Person personAlice = new Person("Alice", "red");
+        Person personBob = new Person("Bob", "blue");
+        Person personChloe = new Person("Chloe", "orange");
         groupColoc.addPerson(personMe);
         groupColoc.addPerson(personAlice);
         groupColoc.addPerson(personBob);

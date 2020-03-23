@@ -18,7 +18,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         String createTableElement = "CREATE TABLE 'tasks' ( 'name' TEXT, 'deadline' INTEGER, 'group_name' TEXT, 'participant_name' TEXT, 'priority' INTEGER);";
         db.execSQL(createTableElement);
 
-        String createTableRecipe = "CREATE TABLE 'participants' ( 'participant_name' TEXT, 'group_name' TEXT);";
+        String createTableRecipe = "CREATE TABLE 'participants' ( 'participant_name' TEXT, 'group_name' TEXT, 'color' TEXT);";
         db.execSQL(createTableRecipe);
 
     }

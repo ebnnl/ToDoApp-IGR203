@@ -1,5 +1,7 @@
 package com.example.todolist;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +32,16 @@ public class Group {
 
     public List<Person> getPersons(){
         return this.persons;
+    }
+
+    public Person getPerson(String name){
+        for (int i=0; i<persons.size(); i++){
+            Person person = persons.get(i);
+            if (person.getName().equals(name)){
+                return person;
+            }
+        }
+        return null;
     }
 
     public List<Task> getTasks(){
