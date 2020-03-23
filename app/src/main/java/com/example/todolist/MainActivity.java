@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v){
                 Intent createTaskActivity = new Intent(MainActivity.this, CreateTaskActivity.class);
                 startActivity(createTaskActivity);
-                MainActivity.this.finish();
             }
         });
 
@@ -124,12 +123,35 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 }
+                // Bouton pour créer un groupe
+                Button createButton = new Button(MainActivity.this);
+                createButton.setText("+");
+                buttonsLayout.addView(createButton);
+                createButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent createGroupActivity = new Intent(MainActivity.this, CreateGroupActivity.class);
+                        startActivity(createGroupActivity);
+                    }
+                });
+
                 // Afficher le dialogue en haut à gauche
                 Window window = chooseGroupDialog.getWindow();
                 window.setGravity(Gravity.TOP|Gravity.RIGHT);
                 chooseGroupDialog.show();
             }
         });
+    }
+
+    @Override
+    public void onRestart() {
+
+        super.onRestart();
+        dataBase = new DAOBase(this);
+        dataBase.open();
+        this.groupsList = dataBase.getGroupsList();
+        groupToSee = groupsList.getGroup(groupToSee.getName());
+        loadContent();
     }
 
     // Fonction pour charger le contenu de l'activity

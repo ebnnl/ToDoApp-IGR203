@@ -133,9 +133,8 @@ public class CreateTaskActivity extends AppCompatActivity {
                 dataBase.addTask(newTask);
 
                 // Revenir à l'activité principale
-                Intent mainActivity = new Intent(CreateTaskActivity.this, MainActivity.class);
-                startActivity(mainActivity);
                 CreateTaskActivity.this.finish();
+
             }
         });
 
