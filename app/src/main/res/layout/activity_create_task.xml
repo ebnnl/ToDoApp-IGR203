@@ -108,12 +108,19 @@
                 android:text="Priorité : "
                 android:textAppearance="@style/OrangeText"></TextView>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/activity_create_task_priority_text"></TextView>
+
             <SeekBar
                 android:id="@+id/activity_create_task_priority_bar"
                 style="@style/Widget.AppCompat.SeekBar.Discrete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"/>
+                android:layout_margin="10dp"
+                android:indeterminate="false"
+                android:max="100" />
 
         </LinearLayout>
 

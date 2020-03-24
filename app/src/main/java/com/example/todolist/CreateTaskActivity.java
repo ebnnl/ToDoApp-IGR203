@@ -22,6 +22,7 @@ import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +48,8 @@ public class CreateTaskActivity extends AppCompatActivity {
     private Button chooseDeadlineButton; // Bouton pour ouvrir la pop up pour choisir la deadline
     private TextView deadlineText; // Text View pour afficher la deadline
     private Dialog deadlineDialog; // Pop up pour choisir la deadline
+    private SeekBar prioritySeekBar;
+    private TextView priorityTextView;
 
     private String name; // Nom de la tâche
     private Date deadline = new Date(00000000);
@@ -74,6 +77,8 @@ public class CreateTaskActivity extends AppCompatActivity {
         chooseDeadlineButton = findViewById(R.id.activity_create_task_choose_deadline_button);
         deadlineDialog = new Dialog(this);
         deadlineText = findViewById(R.id.activity_create_task_deadline_text);
+        prioritySeekBar = findViewById(R.id.activity_create_task_priority_bar);
+        priorityTextView = findViewById(R.id.activity_create_task_priority_text);
 
         validateButton.setEnabled(false); // Initialement, on ne peut pas valider (attendre qu'un nom
         // de tâche soit entré)
@@ -156,6 +161,28 @@ public class CreateTaskActivity extends AppCompatActivity {
                 });
 
                 deadlineDialog.show();
+            }
+        });
+
+        // Réaction au changement de priorité
+        prioritySeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                priorityTextView.setText(Integer.toString(progress));
+                // Get the thumb bound and get its left value
+                int x = seekBar.getThumb().getBounds().left;
+                // set the left value to textview x value
+                priorityTextView.setX(x);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
             }
         });
 
