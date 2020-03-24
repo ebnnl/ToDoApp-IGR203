@@ -169,10 +169,14 @@ public class CreateTaskActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 priorityTextView.setText(Integer.toString(progress));
-                // Get the thumb bound and get its left value
                 int x = seekBar.getThumb().getBounds().left;
-                // set the left value to textview x value
                 priorityTextView.setX(x);
+                priority = progress;
+
+                // Chercher les tâches qui encadrent la priorité
+                Group group = groupsList.getGroup(groupName);
+                String taskInf = group.getTaskPriorityInf(progress);
+                String taskSup = group.getTaskPrioritySup(progress);
             }
 
             @Override

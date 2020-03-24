@@ -61,4 +61,14 @@ public class Group {
         }
         return false;
     }
+
+    public String getTaskPriorityInf(int priority){
+        // A implementer
+        return "";
+    }
+
+    public String getTaskPrioritySup(int priority){
+        // A implementer
+        return "";
+    }
 }
