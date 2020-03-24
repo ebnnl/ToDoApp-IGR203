@@ -62,13 +62,33 @@ public class Group {
         return false;
     }
 
+    // Obtenir la première tâche dont la priorité est inférieure à priority
     public String getTaskPriorityInf(int priority){
-        // A implementer
-        return "";
+        Task taskInf = tasks.get(0);
+        for (int i=0; i<tasks.size(); i++){
+            Task task = tasks.get(i);
+            if (task.getPriority()<taskInf.getPriority() && task.getPriority()>priority){
+                taskInf = task;
+            }
+        }
+        if (priority<taskInf.getPriority()){
+            return "";
+        }
+        return taskInf.getName();
     }
 
+    // Obtenir la première tâche dont la priorité est supérieure à priority
     public String getTaskPrioritySup(int priority){
-        // A implementer
-        return "";
+        Task taskSup = tasks.get(0);
+        for (int i=0; i<tasks.size(); i++){
+            Task task = tasks.get(i);
+            if (task.getPriority()>taskSup.getPriority() && task.getPriority()<priority){
+                taskSup = task;
+            }
+        }
+        if (priority<taskSup.getPriority()){
+            return "";
+        }
+        return taskSup.getName();
     }
 }

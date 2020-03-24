@@ -177,6 +177,7 @@ public class CreateTaskActivity extends AppCompatActivity {
                 Group group = groupsList.getGroup(groupName);
                 String taskInf = group.getTaskPriorityInf(progress);
                 String taskSup = group.getTaskPrioritySup(progress);
+                priorityTextView.setText(taskInf+" / "+taskSup);
             }
 
             @Override

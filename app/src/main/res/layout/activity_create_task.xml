@@ -116,7 +116,7 @@
             <SeekBar
                 android:id="@+id/activity_create_task_priority_bar"
                 style="@style/Widget.AppCompat.SeekBar.Discrete"
-                android:layout_width="match_parent"
+                android:layout_width="294dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:indeterminate="false"
