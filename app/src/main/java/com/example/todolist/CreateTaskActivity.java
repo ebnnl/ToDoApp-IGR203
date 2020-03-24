@@ -160,6 +160,15 @@ public class CreateTaskActivity extends AppCompatActivity {
                     }
                 });
 
+                // Bouton du dialog de validation de la deadline
+                Button validateDeadlineButton = deadlineDialog.findViewById(R.id.pop_up_choose_deadline_validate_button);
+                validateDeadlineButton.setOnClickListener(new Button.OnClickListener(){
+                    @Override
+                    public void onClick(View v){
+                        deadlineDialog.dismiss();
+                    }
+                });
+
                 deadlineDialog.show();
             }
         });
