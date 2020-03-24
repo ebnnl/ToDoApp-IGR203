@@ -14,6 +14,12 @@ public class Date {
         this.year = mmaaaa - 10000*month;
     }
 
+    public Date(int day, int month, int year){
+        this.day = day;
+        this.month = month;
+        this.year = year;
+    }
+
     public int getInt(){
         return day*1000000+month*10000+year;
     }

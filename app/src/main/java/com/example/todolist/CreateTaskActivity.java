@@ -3,6 +3,7 @@ package com.example.todolist;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,19 +14,25 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class CreateTaskActivity extends AppCompatActivity {
 
@@ -37,6 +44,9 @@ public class CreateTaskActivity extends AppCompatActivity {
     private FloatingActionButton validateButton; // Bouton pour enregistrer
     private Spinner groupSpinner; // Spinner pour choisir le groupe
     private RadioGroup responsibleRadioGroup; // Ensemble de radio button pour choisir le responsable
+    private Button chooseDeadlineButton; // Bouton pour ouvrir la pop up pour choisir la deadline
+    private TextView deadlineText; // Text View pour afficher la deadline
+    private Dialog deadlineDialog; // Pop up pour choisir la deadline
 
     private String name; // Nom de la tâche
     private Date deadline = new Date(00000000);
@@ -61,6 +71,9 @@ public class CreateTaskActivity extends AppCompatActivity {
         validateButton = findViewById(R.id.activity_create_task_validate);
         groupSpinner = (Spinner) findViewById(R.id.activity_create_task_group_spinner);
         responsibleRadioGroup = findViewById(R.id.activity_create_task_responsible_group);
+        chooseDeadlineButton = findViewById(R.id.activity_create_task_choose_deadline_button);
+        deadlineDialog = new Dialog(this);
+        deadlineText = findViewById(R.id.activity_create_task_deadline_text);
 
         validateButton.setEnabled(false); // Initialement, on ne peut pas valider (attendre qu'un nom
         // de tâche soit entré)
@@ -115,6 +128,35 @@ public class CreateTaskActivity extends AppCompatActivity {
                responsibleName = persons.get(checkedId).getName();
             }
 
+        });
+
+        // Configuration du bouton pour choisir la deadline
+        chooseDeadlineButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                // Afficher les choix dans le dialogue
+                deadlineDialog.setContentView(R.layout.pop_up_choose_deadline);
+                // Calendar View pour choisir la deadline
+                CalendarView calendarView = deadlineDialog.findViewById(R.id.pop_up_choose_deadline_calendar);
+                // Mettre la date minimale à aujourd'hui
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.DATE,Calendar.getInstance().getActualMinimum(Calendar.DATE));
+                long date = calendar.getTime().getTime();
+                calendarView.setMinDate(date);
+
+                // Réaction au changement de date :
+                calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+
+                    @Override
+                    public void onSelectedDayChange(CalendarView view, int year, int month,
+                                                    int dayOfMonth) {
+                       deadline = new Date(dayOfMonth, month+1, year);
+                       deadlineText.setText(Integer.toString(dayOfMonth)+"/"+Integer.toString(month+1)+"/"+Integer.toString(year));
+                    }
+                });
+
+                deadlineDialog.show();
+            }
         });
 
 
