@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.net.LinkAddress;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,8 +33,13 @@ public class MainActivity extends AppCompatActivity {
     private Button chooseGroupButton; // Bouton pour ouvrir le dialogue pour choisir le groupe
     private Dialog chooseGroupDialog;
     private LinearLayout tasksLayout; // Layout où sont affichées les tâches
-    private Group groupToSee; // Groupe dont on doit afficher les tâches
+    private LinearLayout responsibleLayout; // Layout où sont affichés les responsables
+    private TextView responsibleToSeeTextView; // TextView pour afficher le responsable dont on veut voir les tâches
 
+    private Group groupToSee; // Groupe dont on doit afficher les tâches
+    private String personToSee; // Personne dont on veut voir les tâches
+
+    @SuppressLint("WrongViewCast")
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
         tasksLayout = findViewById(R.id.activity_main_tasks_layout); // Récupérer le layout où afficher le texte
         addButton = findViewById(R.id.activity_main_add_button);
         chooseGroupButton = findViewById(R.id.activity_main_select_group_button);
+        responsibleLayout = findViewById(R.id.activity_main_responsibles_layout);
+        responsibleToSeeTextView = findViewById(R.id.activity_main_responsible_text_view);
         chooseGroupDialog = new Dialog(this);
 
 
@@ -86,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         groupPerso.addPerson(personMe);
         dataBase.addGroup(groupPerso);
         this.groupToSee = groupsList.getGroup("Mes tâches personnelles");
-
+        this.personToSee = "all";
 
         loadContent();
 
@@ -157,24 +166,63 @@ public class MainActivity extends AppCompatActivity {
     // Fonction pour charger le contenu de l'activity
     public void loadContent(){
 
-        // Titre de la page
+        // Titre de la page et nom du responsable
         this.setTitle(groupToSee.getName());
+        if (personToSee.equals("all")){
+            responsibleToSeeTextView.setText("Toutes les tâches :");
+        }
+        else {
+            responsibleToSeeTextView.setText("Tâches pour " + personToSee + " :");
+        }
 
         // Contenu de tasksLayout
         // (Vider avant de remplir)
         tasksLayout.removeAllViews();
+        responsibleLayout.removeAllViews();
 
-        // Test: afficher la liste tâches du groupe concerné
+        // Test: afficher la liste tâches du groupe et de la personne concernée
         // (Donne une idée de comment utiliser la bdd)
         List<Task> tasks = groupToSee.getTasks();
         for (int j=0; j<tasks.size(); j++){
             Task task = tasks.get(j);
-            // Créer le text view avec le nom de la tâche et l'ajouter au layout
-            TextView taskNameTextView = new TextView(this);
-            taskNameTextView.setText("      "+task.getName());
-            tasksLayout.addView(taskNameTextView);
+            if (personToSee.equals("all") || personToSee.equals(task.getPerson().getName())){
+                // Créer le text view avec le nom de la tâche et l'ajouter au layout
+                TextView taskNameTextView = new TextView(this);
+                taskNameTextView.setText("      "+task.getName());
+                tasksLayout.addView(taskNameTextView);
+            }
         }
 
-        // Contenu de personsLayout
+        // Contenu de responsibleLayout
+        // Afficher un bouton pour chaque responsable
+        List<Person> responsibles = groupToSee.getPersons();
+        Button buttonSeeAll = new Button(this);
+        buttonSeeAll.setText("Voir tout");
+        buttonSeeAll.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                personToSee = "all";
+                loadContent();
+            }
+        });
+        responsibleLayout.addView(buttonSeeAll);
+
+        for (int i=0; i<responsibles.size(); i++){
+            final Person responsible =responsibles.get(i);
+            Button buttonPerson = new Button(this);
+            int image = responsible.getImage();
+            Drawable img = this.getResources().getDrawable(image);
+            buttonPerson.setLayoutParams(new LinearLayout.LayoutParams(150, 150));
+            buttonPerson.setBackground(img);
+            buttonPerson.setText(responsible.getName());
+            responsibleLayout.addView(buttonPerson);
+            buttonPerson.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    personToSee = responsible.getName();
+                    loadContent();
+                }
+            });
+        }
     }
 }
