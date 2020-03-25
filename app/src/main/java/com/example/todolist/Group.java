@@ -64,14 +64,14 @@ public class Group {
 
     // Obtenir la première tâche dont la priorité est inférieure à priority
     public String getTaskPriorityInf(int priority){
-        Task taskInf = tasks.get(0);
+        Task taskInf = new Task("priority0", 0, null, null, null);
         for (int i=0; i<tasks.size(); i++){
             Task task = tasks.get(i);
-            if (task.getPriority()<taskInf.getPriority() && task.getPriority()>priority){
+            if (task.getPriority()>taskInf.getPriority() && task.getPriority()<priority){
                 taskInf = task;
             }
         }
-        if (priority<taskInf.getPriority()){
+        if (taskInf.getPriority()==0){
             return "";
         }
         return taskInf.getName();
@@ -79,16 +79,26 @@ public class Group {
 
     // Obtenir la première tâche dont la priorité est supérieure à priority
     public String getTaskPrioritySup(int priority){
-        Task taskSup = tasks.get(0);
+        Task taskSup = new Task("priority100", 100, null, null, null);
         for (int i=0; i<tasks.size(); i++){
             Task task = tasks.get(i);
-            if (task.getPriority()>taskSup.getPriority() && task.getPriority()<priority){
+            if (task.getPriority()<taskSup.getPriority() && task.getPriority()>priority){
                 taskSup = task;
             }
         }
-        if (priority<taskSup.getPriority()){
+        if (taskSup.getPriority()==100){
             return "";
         }
         return taskSup.getName();
+    }
+
+    public String getTaskPriorityEqual(int priority){
+        for (int i=0; i<tasks.size(); i++){
+            Task task = tasks.get(i);
+            if (task.getPriority()==priority){
+                return task.getName();
+            }
+        }
+        return "";
     }
 }

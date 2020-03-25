@@ -7,11 +7,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -49,7 +51,9 @@ public class CreateTaskActivity extends AppCompatActivity {
     private TextView deadlineText; // Text View pour afficher la deadline
     private Dialog deadlineDialog; // Pop up pour choisir la deadline
     private SeekBar prioritySeekBar;
-    private TextView priorityTextView;
+    private TextView priorityInfTextView; // Texte pour afficher la tâche de priorité inférieure
+    private TextView prioritySupTextView; // Texte pour afficher la tâche de priorité inférieure
+    private TextView priorityEqualTextView; // Texte pour afficher la tâche de priorité égale
 
     private String name; // Nom de la tâche
     private Date deadline = new Date(00000000);
@@ -78,7 +82,9 @@ public class CreateTaskActivity extends AppCompatActivity {
         deadlineDialog = new Dialog(this);
         deadlineText = findViewById(R.id.activity_create_task_deadline_text);
         prioritySeekBar = findViewById(R.id.activity_create_task_priority_bar);
-        priorityTextView = findViewById(R.id.activity_create_task_priority_text);
+        priorityInfTextView = findViewById(R.id.activity_create_task_priority_inf_text);
+        prioritySupTextView = findViewById(R.id.activity_create_task_priority_sup_text);
+        priorityEqualTextView = findViewById(R.id.activity_create_task_priority_equal_text);
 
         validateButton.setEnabled(false); // Initialement, on ne peut pas valider (attendre qu'un nom
         // de tâche soit entré)
@@ -177,16 +183,61 @@ public class CreateTaskActivity extends AppCompatActivity {
         prioritySeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                priorityTextView.setText(Integer.toString(progress));
-                int x = seekBar.getThumb().getBounds().left;
-                priorityTextView.setX(x);
                 priority = progress;
 
                 // Chercher les tâches qui encadrent la priorité
                 Group group = groupsList.getGroup(groupName);
                 String taskInf = group.getTaskPriorityInf(progress);
                 String taskSup = group.getTaskPrioritySup(progress);
-                priorityTextView.setText(taskInf+" / "+taskSup);
+                String taskEqual = group.getTaskPriorityEqual(progress);
+                if (taskInf.equals("")||!taskEqual.equals("")){
+                    priorityInfTextView.setText("");
+                }
+                else {
+                    priorityInfTextView.setText("Inférieure à "+taskInf.toLowerCase());
+                }
+                if (taskSup.equals("")||!taskEqual.equals("")){
+                    prioritySupTextView.setText("");
+                }
+                else{
+                    prioritySupTextView.setText("Supérieure à "+taskSup.toLowerCase());
+                }
+                if (taskEqual.equals("")){
+                    priorityEqualTextView.setText("");
+                }
+                else {
+                    priorityEqualTextView.setText("Egale à "+taskEqual.toLowerCase());
+                }
+
+                // J'avais fait ça pour que le texte suive le curseur mais c'était moche,
+                // vous pouvez le décommenter pour voir
+                /*// Position du curseur
+                int x = seekBar.getThumb().getBounds().centerX();
+                // Largeur de l'écran
+                Display display = getWindowManager().getDefaultDisplay();
+                Point size = new Point();
+                display.getSize(size);
+                int width = size.x;
+                // Largeur du texte
+                int widthInf = priorityInfTextView.getWidth();
+                int widthSup = prioritySupTextView.getWidth();
+                int widthEqual = priorityEqualTextView.getWidth();
+                // Afficher le texte au niveau du curseur sans qu'il ne sorte de l'écran
+                int xTextInf = x;
+                int xTextSup = x;
+                int xTextEqual = x;
+                if (xTextInf+widthInf+100>width){
+                    xTextInf = width-widthInf-100;
+                }
+                if (xTextSup+widthSup+100>width){
+                    xTextSup = width-widthSup-100;
+                }
+                if (xTextEqual+widthEqual+100>width){
+                    xTextEqual = width-widthEqual-100;
+                }
+                priorityInfTextView.setX(xTextInf);
+                prioritySupTextView.setX(xTextSup);
+                priorityEqualTextView.setX(xTextEqual);*/
             }
 
             @Override
