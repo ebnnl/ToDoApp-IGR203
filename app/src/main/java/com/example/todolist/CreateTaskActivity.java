@@ -50,7 +50,7 @@ public class CreateTaskActivity extends AppCompatActivity {
     private Button chooseDeadlineButton; // Bouton pour ouvrir la pop up pour choisir la deadline
     private TextView deadlineText; // Text View pour afficher la deadline
     private Dialog deadlineDialog; // Pop up pour choisir la deadline
-    private SeekBar prioritySeekBar;
+    private DottedSeekBar prioritySeekBar;
     private TextView priorityInfTextView; // Texte pour afficher la tâche de priorité inférieure
     private TextView prioritySupTextView; // Texte pour afficher la tâche de priorité inférieure
     private TextView priorityEqualTextView; // Texte pour afficher la tâche de priorité égale
@@ -81,7 +81,7 @@ public class CreateTaskActivity extends AppCompatActivity {
         chooseDeadlineButton = findViewById(R.id.activity_create_task_choose_deadline_button);
         deadlineDialog = new Dialog(this);
         deadlineText = findViewById(R.id.activity_create_task_deadline_text);
-        prioritySeekBar = findViewById(R.id.activity_create_task_priority_bar);
+        prioritySeekBar = (DottedSeekBar) findViewById(R.id.activity_create_task_priority_bar);
         priorityInfTextView = findViewById(R.id.activity_create_task_priority_inf_text);
         prioritySupTextView = findViewById(R.id.activity_create_task_priority_sup_text);
         priorityEqualTextView = findViewById(R.id.activity_create_task_priority_equal_text);
@@ -121,7 +121,7 @@ public class CreateTaskActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 groupName = (String) groupSpinner.getItemAtPosition(position);
-                updateResponsibles(); // Mettre à jour la liste des responsables en fonction du groupe
+                updateContent(); // Mettre à jour la liste des responsables en fonction du groupe
             }
 
             @Override
@@ -194,13 +194,13 @@ public class CreateTaskActivity extends AppCompatActivity {
                     priorityInfTextView.setText("");
                 }
                 else {
-                    priorityInfTextView.setText("Inférieure à "+taskInf.toLowerCase());
+                    priorityInfTextView.setText("Supérieure à "+taskInf.toLowerCase());
                 }
                 if (taskSup.equals("")||!taskEqual.equals("")){
                     prioritySupTextView.setText("");
                 }
                 else{
-                    prioritySupTextView.setText("Supérieure à "+taskSup.toLowerCase());
+                    prioritySupTextView.setText("Inférieure à "+taskSup.toLowerCase());
                 }
                 if (taskEqual.equals("")){
                     priorityEqualTextView.setText("");
@@ -276,7 +276,7 @@ public class CreateTaskActivity extends AppCompatActivity {
     }
 
     // Fonction pour mettre à jour la liste des responsables
-    public void updateResponsibles(){
+    public void updateContent(){
         // Récupérer la liste des personnes
         List<Person> persons = groupsList.getGroup(groupName).getPersons();
         // Vider l'ensemble des radio button
@@ -296,5 +296,15 @@ public class CreateTaskActivity extends AppCompatActivity {
             radioButtonPerson.setGravity(Gravity.BOTTOM);
             responsibleRadioGroup.addView(radioButtonPerson);
         }
+
+        // Ajouter un marque sur la barre de priorité pour chaque tâche existante
+        List<Task> tasks = groupsList.getGroup(groupName).getTasks();
+        int[] dots = new int[tasks.size()];
+        for (int i=0; i<tasks.size(); i++){
+            Task task = tasks.get(i);
+            dots[i] = task.getPriority()+2;
+        }
+        prioritySeekBar.setDots(dots);
+        prioritySeekBar.setDotsDrawable(android.R.drawable.radiobutton_off_background);
     }
 }
