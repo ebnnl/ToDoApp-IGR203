@@ -14,8 +14,10 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -71,10 +73,10 @@ public class MainActivity extends AppCompatActivity {
         groupIGR.addPerson(personMe);
         groupIGR.addPerson(personBob);
         groupIGR.addPerson(personChloe);
-        Task task1 = new Task("Faire le ménage", 50, new Date(23052020), groupColoc, personAlice, 150, 150);
-        Task task2 = new Task("Faire les courses", 60, new Date(21052020), groupColoc, personMe, 150, 350);
-        Task task3 = new Task("Faire le rapport", 40, new Date(30032020), groupIGR, personChloe, 350, 150);
-        Task task4 = new Task("Faire le prototype", 80, new Date(30032020), groupIGR, personBob, 350, 350);
+        Task task1 = new Task("Faire le ménage", 50, new Date(23052020), groupColoc, personAlice, 50, 150);
+        Task task2 = new Task("Faire les courses", 60, new Date(21052020), groupColoc, personMe, 200, 350);
+        Task task3 = new Task("Faire le rapport", 40, new Date(30032020), groupIGR, personChloe, 150, 50);
+        Task task4 = new Task("Faire le prototype", 80, new Date(30032020), groupIGR, personBob, 200, 500);
         // Les ajouter à la base
         dataBase.addGroup(groupColoc);
         dataBase.addGroup(groupIGR);
@@ -193,8 +195,13 @@ public class MainActivity extends AppCompatActivity {
                 // Texte du bouton
                 taskButton.setText(task.getName());
                 // Définir la taille du bouton en fonction de la priorité
-                taskButton.setWidth(task.getPriority()*5+150);
-                taskButton.setHeight(task.getPriority()*5+150);
+                int size = task.getPriority()*5+150;
+                taskButton.setWidth(size);
+                taskButton.setHeight(size);
+                // Positionner le bouton en fonction de ses coordonnées
+                RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(size, size);
+                layoutParams.leftMargin = task.getCoordX();
+                layoutParams.topMargin = task.getCoordY();
                 // Créer les listeners dont on a besoin pour zoomer et déplacer le bouton
                 OnPinchListener onPinchListener = new OnPinchListener(taskButton);
                 ScaleGestureDetector scaleGestureDetector = new ScaleGestureDetector(getApplicationContext(), onPinchListener);
@@ -209,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 // Ajouter le bouton au layout
-                tasksLayout.addView(taskButton);
+                tasksLayout.addView(taskButton, layoutParams);
             }
         }
 
