@@ -263,7 +263,7 @@ public class CreateTaskActivity extends AppCompatActivity {
                 // Ajouter la tâche à la base
                 Group group = groupsList.getGroup(groupName);
                 Person person = group.getPerson(responsibleName);
-                Task newTask = new Task(name, priority, deadline, group, person);
+                Task newTask = new Task(name, priority, deadline, group, person, 200, 200);
                 dataBase.addTask(newTask);
 
                 // Revenir à l'activité principale

@@ -62,12 +62,14 @@ public class DAOBase {
             String group_name = cursorTask.getString(2);
             String participant_name = cursorTask.getString(3);
             int priority = cursorTask.getInt(4);
+            int coordX = cursorTask.getInt(5);
+            int coordY = cursorTask.getInt(6);
 
             // Récupérer le groupe la liste des groupes
             Group group = groupsList.getGroup(group_name);
             Person person = group.getPerson(participant_name);
             // Ajouter la tâche à ce groupe
-            Task task = new Task(name, priority, new Date(deadline), group, person);
+            Task task = new Task(name, priority, new Date(deadline), group, person, coordX, coordY);
             group.addTask(task);
         }
         cursorTask.close();
@@ -94,6 +96,8 @@ public class DAOBase {
             value.put("group_name", task.getGroup().getName());
             value.put("participant_name", task.getPerson().getName());
             value.put("priority", task.getPriority());
+            value.put("coordX", task.getCoordX());
+            value.put("coordY", task.getCoordY());
             // Ajouter la ligne à la table
             mDb.insert("tasks", null, value);
             groupsList.addTask(task);

@@ -64,7 +64,7 @@ public class Group {
 
     // Obtenir la première tâche dont la priorité est inférieure à priority
     public String getTaskPriorityInf(int priority){
-        Task taskInf = new Task("priority0", 0, null, null, null);
+        Task taskInf = new Task("priority0", 0, null, null, null, 0, 0);
         for (int i=0; i<tasks.size(); i++){
             Task task = tasks.get(i);
             if (task.getPriority()>taskInf.getPriority() && task.getPriority()<priority){
@@ -79,7 +79,7 @@ public class Group {
 
     // Obtenir la première tâche dont la priorité est supérieure à priority
     public String getTaskPrioritySup(int priority){
-        Task taskSup = new Task("priority100", 100, null, null, null);
+        Task taskSup = new Task("priority100", 100, null, null, null, 0, 0);
         for (int i=0; i<tasks.size(); i++){
             Task task = tasks.get(i);
             if (task.getPriority()<taskSup.getPriority() && task.getPriority()>priority){

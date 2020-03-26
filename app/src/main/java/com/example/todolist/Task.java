@@ -8,13 +8,16 @@ public class Task {
     private Date deadline; // Date de la deadline (Entier sous la forme JJMMAAA)
     private Group group; // Nom du groupe auquel appartient la tâche
     private Person person; // Nom de la personne qui doit faire la tâche
+    private int coordX, coordY; // Position de la tâche sur l'écran
 
-    public Task(String name, int priority, Date deadline, Group group, Person person){
+    public Task(String name, int priority, Date deadline, Group group, Person person, int coordX, int coordY){
         this.name = name;
         this.priority = priority;
         this.deadline = deadline;
         this.group = group;
         this.person = person;
+        this.coordX = coordX;
+        this.coordY = coordY;
     }
 
     public String getName(){
@@ -36,4 +39,8 @@ public class Task {
     public Person getPerson(){
         return person;
     }
+
+    public int getCoordX() { return coordX; }
+
+    public int getCoordY() { return coordY; }
 }

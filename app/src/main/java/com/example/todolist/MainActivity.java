@@ -71,10 +71,10 @@ public class MainActivity extends AppCompatActivity {
         groupIGR.addPerson(personMe);
         groupIGR.addPerson(personBob);
         groupIGR.addPerson(personChloe);
-        Task task1 = new Task("Faire le ménage", 50, new Date(23052020), groupColoc, personAlice);
-        Task task2 = new Task("Faire les courses", 60, new Date(21052020), groupColoc, personMe);
-        Task task3 = new Task("Faire le rapport", 40, new Date(30032020), groupIGR, personChloe);
-        Task task4 = new Task("Faire le prototype", 80, new Date(30032020), groupIGR, personBob);
+        Task task1 = new Task("Faire le ménage", 50, new Date(23052020), groupColoc, personAlice, 150, 150);
+        Task task2 = new Task("Faire les courses", 60, new Date(21052020), groupColoc, personMe, 150, 350);
+        Task task3 = new Task("Faire le rapport", 40, new Date(30032020), groupIGR, personChloe, 350, 150);
+        Task task4 = new Task("Faire le prototype", 80, new Date(30032020), groupIGR, personBob, 350, 350);
         // Les ajouter à la base
         dataBase.addGroup(groupColoc);
         dataBase.addGroup(groupIGR);
@@ -188,12 +188,6 @@ public class MainActivity extends AppCompatActivity {
         for (int j=0; j<tasks.size(); j++){
             Task task = tasks.get(j);
             if (personToSee.equals("all") || personToSee.equals(task.getPerson().getName())){
-                // Créer le text view avec le nom de la tâche et l'ajouter au layout
-                /*
-                TextView taskNameTextView = new TextView(this);
-                taskNameTextView.setText("      "+task.getName());
-                tasksLayout.addView(taskNameTextView);
-                 */
                 // Créer le bouton
                 Button taskButton = new Button(this);
                 // Texte du bouton
