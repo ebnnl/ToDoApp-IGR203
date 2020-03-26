@@ -26,12 +26,12 @@
             android:id="@+id/activity_main_responsible_text_view"
             style="@style/OrangeText"></TextView>
 
-        <LinearLayout
+        <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/activity_main_tasks_layout"
         android:orientation="vertical"
-        android:layout_centerInParent="true"></LinearLayout>
+        android:layout_centerInParent="true"></RelativeLayout>
 
         <HorizontalScrollView
             android:layout_width="300dp"

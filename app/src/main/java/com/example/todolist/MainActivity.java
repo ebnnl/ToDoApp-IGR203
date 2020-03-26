@@ -12,10 +12,12 @@ import android.net.LinkAddress;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton addButton; // Bouton pour ouvrir l'activité de création de tâche
     private Button chooseGroupButton; // Bouton pour ouvrir le dialogue pour choisir le groupe
     private Dialog chooseGroupDialog;
-    private LinearLayout tasksLayout; // Layout où sont affichées les tâches
+    private RelativeLayout tasksLayout; // Layout où sont affichées les tâches
     private LinearLayout responsibleLayout; // Layout où sont affichés les responsables
     private TextView responsibleToSeeTextView; // TextView pour afficher le responsable dont on veut voir les tâches
 
@@ -187,9 +189,33 @@ public class MainActivity extends AppCompatActivity {
             Task task = tasks.get(j);
             if (personToSee.equals("all") || personToSee.equals(task.getPerson().getName())){
                 // Créer le text view avec le nom de la tâche et l'ajouter au layout
+                /*
                 TextView taskNameTextView = new TextView(this);
                 taskNameTextView.setText("      "+task.getName());
                 tasksLayout.addView(taskNameTextView);
+                 */
+                // Créer le bouton
+                Button taskButton = new Button(this);
+                // Texte du bouton
+                taskButton.setText("      "+task.getName());
+                // Définir la taille du bouton
+                taskButton.setWidth(j*150);
+                taskButton.setHeight(j*150);
+                // Créer les listeners dont on a besoin pour zoomer et déplacer le bouton
+                OnPinchListener onPinchListener1 = new OnPinchListener(taskButton);
+                ScaleGestureDetector scaleGestureDetector1 = new ScaleGestureDetector(getApplicationContext(), onPinchListener1);
+                MultiTouchListener touchListener1 = new MultiTouchListener(this, scaleGestureDetector1);
+                // Ajouter les listener au bouton
+                taskButton.setOnTouchListener(touchListener1);
+                // Ajouter la réaction au clic
+                taskButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Mettre ici le code à exécuter au click sur le bouton
+                    }
+                });
+                // Ajouter le bouton au layout
+                tasksLayout.addView(taskButton);
             }
         }
 
