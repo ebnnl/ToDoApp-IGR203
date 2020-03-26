@@ -197,16 +197,16 @@ public class MainActivity extends AppCompatActivity {
                 // Créer le bouton
                 Button taskButton = new Button(this);
                 // Texte du bouton
-                taskButton.setText("      "+task.getName());
-                // Définir la taille du bouton
-                taskButton.setWidth(j*150);
-                taskButton.setHeight(j*150);
+                taskButton.setText(task.getName());
+                // Définir la taille du bouton en fonction de la priorité
+                taskButton.setWidth(task.getPriority()*5+150);
+                taskButton.setHeight(task.getPriority()*5+150);
                 // Créer les listeners dont on a besoin pour zoomer et déplacer le bouton
-                OnPinchListener onPinchListener1 = new OnPinchListener(taskButton);
-                ScaleGestureDetector scaleGestureDetector1 = new ScaleGestureDetector(getApplicationContext(), onPinchListener1);
-                MultiTouchListener touchListener1 = new MultiTouchListener(this, scaleGestureDetector1);
+                OnPinchListener onPinchListener = new OnPinchListener(taskButton);
+                ScaleGestureDetector scaleGestureDetector = new ScaleGestureDetector(getApplicationContext(), onPinchListener);
+                MultiTouchListener touchListener = new MultiTouchListener(this, scaleGestureDetector);
                 // Ajouter les listener au bouton
-                taskButton.setOnTouchListener(touchListener1);
+                taskButton.setOnTouchListener(touchListener);
                 // Ajouter la réaction au clic
                 taskButton.setOnClickListener(new View.OnClickListener() {
                     @Override
