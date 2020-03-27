@@ -225,9 +225,11 @@ public class MainActivity extends AppCompatActivity {
         // Afficher un bouton pour chaque responsable
         List<Person> responsibles = groupToSee.getPersons();
         Button buttonSeeAll = new Button(this);
-        buttonSeeAll.setText("Voir tout");
-        buttonSeeAll.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-        buttonSeeAll.setTextColor(getResources().getColor(R.color.colorWhite));
+        Drawable imgUsers = this.getResources().getDrawable(R.mipmap.users);
+        buttonSeeAll.setLayoutParams(new LinearLayout.LayoutParams(100, 100));
+        buttonSeeAll.setBackground(this.getResources().getDrawable(R.mipmap.users));
+        buttonSeeAll.setText("Tous");
+        buttonSeeAll.setWidth(30);
         buttonSeeAll.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -240,10 +242,11 @@ public class MainActivity extends AppCompatActivity {
         for (int i=0; i<responsibles.size(); i++){
             final Person responsible =responsibles.get(i);
             Button buttonPerson = new Button(this);
-            int image = responsible.getImage();
-            Drawable img = this.getResources().getDrawable(image);
-            buttonPerson.setLayoutParams(new LinearLayout.LayoutParams(150, 150));
-            buttonPerson.setBackground(img);
+            int image = responsible.getImage2();
+            Drawable imgUser = this.getResources().getDrawable(image);
+            buttonPerson.setLayoutParams(new LinearLayout.LayoutParams(100, 100));
+            buttonPerson.setBackground(this.getResources().getDrawable(image));
+            buttonPerson.setWidth(30);
             buttonPerson.setText(responsible.getName());
             responsibleLayout.addView(buttonPerson);
             buttonPerson.setOnClickListener(new View.OnClickListener(){

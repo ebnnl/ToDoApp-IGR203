@@ -29,10 +29,32 @@ public class Person {
             return R.mipmap.green_man_foreground;
         }
         else if(color.equals("yellow")){
-            return R.mipmap.yellow_man_foreground;
+            return R.mipmap.yellow_man;
         }
         else if(color.equals("violet")){
             return R.mipmap.violet_man_foreground;
+        }
+        else return 0;
+    }
+
+    public int getImage2(){
+        if (color.equals("red")){
+            return R.mipmap.red_man;
+        }
+        else if(color.equals("orange")){
+            return R.mipmap.orange_man;
+        }
+        else if(color.equals("blue")){
+            return R.mipmap.blue_man;
+        }
+        else if(color.equals("green")){
+            return R.mipmap.green_man;
+        }
+        else if(color.equals("yellow")){
+            return R.mipmap.yellow_man;
+        }
+        else if(color.equals("violet")){
+            return R.mipmap.violet_man;
         }
         else return 0;
     }
