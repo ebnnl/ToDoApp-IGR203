@@ -86,6 +86,8 @@ public class CreateTaskActivity extends AppCompatActivity {
         prioritySupTextView = findViewById(R.id.activity_create_task_priority_sup_text);
         priorityEqualTextView = findViewById(R.id.activity_create_task_priority_equal_text);
 
+
+
         validateButton.setEnabled(false); // Initialement, on ne peut pas valider (attendre qu'un nom
         // de tâche soit entré)
         validateButton.setVisibility(View.GONE);
@@ -129,6 +131,15 @@ public class CreateTaskActivity extends AppCompatActivity {
 
             }
         });
+
+        // Récupérer groupe initial
+        Bundle b = getIntent().getExtras();
+        if(b != null) {
+            String groupName = b.getString("groupName");
+            int spinnerPosition = adapterGroups.getPosition(groupName);
+            groupSpinner.setSelection(spinnerPosition);
+        }
+
 
         // Réaction au choix du responsable :
         responsibleRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

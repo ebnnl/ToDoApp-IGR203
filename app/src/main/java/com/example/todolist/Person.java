@@ -29,7 +29,7 @@ public class Person {
             return R.mipmap.green_man_foreground;
         }
         else if(color.equals("yellow")){
-            return R.mipmap.yellow_man;
+            return R.mipmap.yellow_man_foreground;
         }
         else if(color.equals("violet")){
             return R.mipmap.violet_man_foreground;

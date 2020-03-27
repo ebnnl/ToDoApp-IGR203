@@ -21,11 +21,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
+
+import static com.example.todolist.R.mipmap.blue_man;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -114,6 +117,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 Intent createTaskActivity = new Intent(MainActivity.this, CreateTaskActivity.class);
+                // Spécifier le groupe courant
+                Bundle b = new Bundle();
+                b.putString("groupName", groupToSee.getName());
+                createTaskActivity.putExtras(b);
                 startActivity(createTaskActivity);
             }
         });
@@ -276,6 +283,15 @@ public class MainActivity extends AppCompatActivity {
                 dataBase.removeTask(task);
                 loadContent();
                 longTouchOnTaskDialog.dismiss();
+
+                // Afficher un toast de félicitations
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(MainActivity.this, "Félicitations !", duration);
+                View congratulationView = new View(MainActivity.this);
+                ImageView congratulationImage = new ImageView(MainActivity.this);
+                congratulationImage.setImageDrawable(MainActivity.this.getResources().getDrawable(R.mipmap.congrats));
+                toast.setView(congratulationImage);
+                toast.show();
             }
         });
         longTouchOnTaskDialog.show();
