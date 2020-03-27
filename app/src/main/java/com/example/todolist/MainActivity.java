@@ -129,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
                     final Group group = groups.get(i); // Groupe correspondant au bouton
                     Button button = new Button(MainActivity.this); // Créer le bouton
                     button.setText(group.getName());
+                    button.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+                    button.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
                     buttonsLayout.addView(button); // Ajouter le bouton au layout
                     button.setOnClickListener(new View.OnClickListener(){
                         @Override
@@ -143,6 +145,8 @@ public class MainActivity extends AppCompatActivity {
                 // Bouton pour créer un groupe
                 Button createButton = new Button(MainActivity.this);
                 createButton.setText("+");
+                createButton.setTextColor(getResources().getColor(R.color.colorWhite));
+                createButton.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
                 buttonsLayout.addView(createButton);
                 createButton.setOnClickListener(new View.OnClickListener() {
                     @Override
