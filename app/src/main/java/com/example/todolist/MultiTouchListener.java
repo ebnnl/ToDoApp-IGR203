@@ -2,11 +2,14 @@ package com.example.todolist;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -17,13 +20,24 @@ import java.net.SecureCacheResponse;
 // Implémente un Listener pour détecter quand l'utilisateur touche l'objet et se déplace
 
 public class MultiTouchListener
+    extends GestureDetector.SimpleOnGestureListener
         implements OnTouchListener
+
 {
 
     private float mPrevX;
     private float mPrevY;
     private ScaleGestureDetector scaleGestureDetector;
     private int lastAction;
+    private boolean longTouch = false;
+    private float downTime = 0;
+    private boolean stopTouch = false;
+    final Handler handler = new Handler();
+    Runnable mLongPressed = new Runnable() {
+        public void run() {
+            // Action au touch long
+        }
+    };
 
     private DAOBase dataBase; // Base de données sur laquelle agir
     private GroupsList groupsList; // Ensemble des groupes
@@ -50,18 +64,21 @@ public class MultiTouchListener
 
         float currX,currY;
         int action = event.getAction();
+
         switch (action ) {
             case MotionEvent.ACTION_DOWN: {
-
+                stopTouch = false;
+                downTime = event.getEventTime();
                 mPrevX = event.getX();
                 mPrevY = event.getY();
+                handler.postDelayed(mLongPressed, ViewConfiguration.getLongPressTimeout());
                 lastAction = event.getAction();
                 break;
             }
 
             case MotionEvent.ACTION_MOVE:
             {
-
+                stopTouch = true;
                 currX = event.getRawX();
                 currY = event.getRawY();
 
@@ -71,7 +88,7 @@ public class MultiTouchListener
                 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(marginParams);
                 view.setLayoutParams(layoutParams);
                 lastAction = event.getAction();
-
+                longTouch = false;
                 break;
             }
 
@@ -79,31 +96,42 @@ public class MultiTouchListener
 
             case MotionEvent.ACTION_CANCEL:
                 lastAction = event.getAction();
+                longTouch = false;
                 break;
 
             case MotionEvent.ACTION_UP:
+                stopTouch = true;
                 if (lastAction == MotionEvent.ACTION_DOWN) {
-                    // Action à effectuer au click
-
-                    // Ouvrir l'activity pour voir la tâche
-                    Intent seeTaskActivity = new Intent(mainActivity, SeeTaskActivity.class);
-                    // Spécifier le nom de la tâche à afficher
-                    Bundle b = new Bundle();
-                    b.putString("taskName", taskName);
-                    b.putString("groupName", groupName);
-                    seeTaskActivity.putExtras(b);
-                    mainActivity.startActivity(seeTaskActivity);
+                    if (event.getEventTime() - downTime > 500){
+                        longTouch = true;
+                    }
+                    else {
+                        longTouch = false;
+                    }
+                    handler.removeCallbacks(mLongPressed);
+                    if(!longTouch) {
+                        // Action à effectuer au click simple
+                        // Ouvrir l'activity pour voir la tâche
+                        Intent seeTaskActivity = new Intent(mainActivity, SeeTaskActivity.class);
+                        // Spécifier le nom de la tâche à afficher
+                        Bundle b = new Bundle();
+                        b.putString("taskName", taskName);
+                        b.putString("groupName", groupName);
+                        seeTaskActivity.putExtras(b);
+                        mainActivity.startActivity(seeTaskActivity);
+                    }
+                    
                     lastAction = event.getAction();
                 }
 
                 break;
+
         }
 
 
 
         return true;
     }
-
 
 
 
