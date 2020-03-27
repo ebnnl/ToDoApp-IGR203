@@ -55,6 +55,7 @@ public class CreateGroupActivity extends AppCompatActivity {
         // de groupe soit entré)
         validateButton.setVisibility(View.GONE);
 
+        updateContent();
 
         nameEditText.addTextChangedListener(new TextWatcher() {
             @Override
