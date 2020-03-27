@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private DAOBase dataBase; // Base de données sur laquelle agir
     private GroupsList groupsList; // Ensemble des groupes
 
+    private androidx.appcompat.widget.Toolbar toolbar;
     private FloatingActionButton addButton; // Bouton pour ouvrir l'activité de création de tâche
     private Button chooseGroupButton; // Bouton pour ouvrir le dialogue pour choisir le groupe
     private Dialog chooseGroupDialog;
@@ -86,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
         dataBase.addTask(task4);
         // ******************************************************************************
 
+        toolbar = findViewById(R.id.activity_main_toolbar);
+        setSupportActionBar(toolbar);
         tasksLayout = findViewById(R.id.activity_main_tasks_layout); // Récupérer le layout où afficher le texte
         addButton = findViewById(R.id.activity_main_add_button);
         chooseGroupButton = findViewById(R.id.activity_main_select_group_button);
@@ -222,6 +226,8 @@ public class MainActivity extends AppCompatActivity {
         List<Person> responsibles = groupToSee.getPersons();
         Button buttonSeeAll = new Button(this);
         buttonSeeAll.setText("Voir tout");
+        buttonSeeAll.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        buttonSeeAll.setTextColor(getResources().getColor(R.color.colorWhite));
         buttonSeeAll.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
