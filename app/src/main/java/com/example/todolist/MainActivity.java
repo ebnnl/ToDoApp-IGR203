@@ -266,8 +266,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Fonction pour afficher les dialogue qui s'ouvre au click long sur un post it
-    public void displayLongTouchDialog(String taskName){
+    public void displayLongTouchDialog(final String taskName){
         longTouchOnTaskDialog.setContentView(R.layout.pop_up_long_touch);
+        FloatingActionButton doneButton = longTouchOnTaskDialog.findViewById(R.id.pop_up_long_touch_done);
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Task task = groupToSee.getTask(taskName);
+                dataBase.removeTask(task);
+                loadContent();
+                longTouchOnTaskDialog.dismiss();
+            }
+        });
         longTouchOnTaskDialog.show();
     }
 }
