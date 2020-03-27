@@ -33,11 +33,6 @@ public class MultiTouchListener
     private float downTime = 0;
     private boolean stopTouch = false;
     final Handler handler = new Handler();
-    Runnable mLongPressed = new Runnable() {
-        public void run() {
-            // Action au touch long
-        }
-    };
 
     private DAOBase dataBase; // Base de données sur laquelle agir
     private GroupsList groupsList; // Ensemble des groupes
@@ -57,6 +52,15 @@ public class MultiTouchListener
         this.groupName = groupName;
         this.scaleGestureDetector = scaleGestureDetector;
     }
+
+    Runnable mLongPressed = new Runnable() {
+        public void run() {
+            if (lastAction != MotionEvent.ACTION_MOVE){
+                // Action au touch long
+                mainActivity.displayLongTouchDialog(taskName);
+            }
+        }
+    };
 
     @Override
     public boolean onTouch(View view, MotionEvent event) {

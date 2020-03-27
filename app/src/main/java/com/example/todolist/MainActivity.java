@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private RelativeLayout tasksLayout; // Layout où sont affichées les tâches
     private LinearLayout responsibleLayout; // Layout où sont affichés les responsables
     private TextView responsibleToSeeTextView; // TextView pour afficher le responsable dont on veut voir les tâches
+    private Dialog longTouchOnTaskDialog; // Dialog qui apparait en appuyant longtemps sur une tâche
 
     private Group groupToSee; // Groupe dont on doit afficher les tâches
     private String personToSee; // Personne dont on veut voir les tâches
@@ -96,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
         responsibleLayout = findViewById(R.id.activity_main_responsibles_layout);
         responsibleToSeeTextView = findViewById(R.id.activity_main_responsible_text_view);
         chooseGroupDialog = new Dialog(this);
+        longTouchOnTaskDialog = new Dialog(this);
 
 
         // Initialement, le groupe à afficher est le groupe perso
@@ -261,5 +263,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    // Fonction pour afficher les dialogue qui s'ouvre au click long sur un post it
+    public void displayLongTouchDialog(String taskName){
+        longTouchOnTaskDialog.setContentView(R.layout.pop_up_long_touch);
+        longTouchOnTaskDialog.show();
     }
 }
