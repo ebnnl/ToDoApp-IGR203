@@ -81,8 +81,8 @@
 
             android:layout_weight="1"
             android:clickable="true"
+            app:backgroundTint="@color/colorPrimaryDark"
             app:fabCustomSize="80dp"
-            app:backgroundTint="#E08707"
             app:maxImageSize="100dp"
             app:srcCompat="@android:drawable/ic_menu_add" />
 
