@@ -37,6 +37,28 @@ public class Person {
         else return 0;
     }
 
+    public int getColorInt(){
+        if (color.equals("red")){
+            return R.color.colorRed;
+        }
+        else if(color.equals("orange")){
+            return R.color.colorOrange;
+        }
+        else if(color.equals("blue")){
+            return R.color.colorBlue;
+        }
+        else if(color.equals("green")){
+            return R.color.colorGreen;
+        }
+        else if(color.equals("yellow")){
+            return R.color.colorYellow;
+        }
+        else if(color.equals("violet")){
+            return R.color.colorViolet;
+        }
+        else return 0;
+    }
+
     public String getColor(){
         return color;
     }

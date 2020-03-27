@@ -172,11 +172,13 @@ public class MainActivity extends AppCompatActivity {
 
         // Titre de la page et nom du responsable
         this.setTitle(groupToSee.getName());
+        responsibleToSeeTextView.setTextColor(getResources().getColor(R.color.colorPrimary));
         if (personToSee.equals("all")){
             responsibleToSeeTextView.setText("Toutes les tâches :");
         }
         else {
             responsibleToSeeTextView.setText("Tâches pour " + personToSee + " :");
+            int color = groupToSee.getPerson(personToSee).getColorInt();
         }
 
         // Contenu de tasksLayout
@@ -208,6 +210,8 @@ public class MainActivity extends AppCompatActivity {
                 MultiTouchListener touchListener = new MultiTouchListener(this, scaleGestureDetector);
                 // Ajouter les listener au bouton
                 taskButton.setOnTouchListener(touchListener);
+                // Couleur de la tâche
+                taskButton.setBackgroundColor(getResources().getColor(task.getPerson().getColorInt()));
                 // Ajouter la réaction au clic
                 taskButton.setOnClickListener(new View.OnClickListener() {
                     @Override

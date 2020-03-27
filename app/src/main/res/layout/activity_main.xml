@@ -14,11 +14,13 @@
         android:layout_margin="15dp">
 
         <Button
+            android:id="@+id/activity_main_select_group_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Groupes..."
             android:layout_alignParentRight="true"
-            android:id="@+id/activity_main_select_group_button"></Button>
+            android:background="@color/colorPrimaryDark"
+            android:textColor="#FFFFFF"
+            android:text="Groupes..."></Button>
 
         <TextView
             android:layout_width="wrap_content"
@@ -27,11 +29,11 @@
             style="@style/OrangeText"></TextView>
 
         <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/activity_main_tasks_layout"
-        android:orientation="vertical"
-        android:layout_centerInParent="true"></RelativeLayout>
+            android:id="@+id/activity_main_tasks_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"></RelativeLayout>
 
         <HorizontalScrollView
             android:layout_width="300dp"
