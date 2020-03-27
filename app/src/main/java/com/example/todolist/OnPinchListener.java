@@ -37,6 +37,7 @@ public class OnPinchListener extends ScaleGestureDetector.SimpleOnScaleGestureLi
     @Override
     public boolean onScale(ScaleGestureDetector detector) {
 
+        // Mise à jour de la taille ici
         float scaleFactor = detector.getScaleFactor() - 1;
         factor += scaleFactor;
         button.setScaleX(factor);

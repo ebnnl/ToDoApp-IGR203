@@ -48,6 +48,16 @@ public class Group {
         return tasks;
     }
 
+    public Task getTask(String taskName){
+        for (int i=0; i<tasks.size(); i++){
+            Task task = tasks.get(i);
+            if (task.getName().equals(taskName)){
+                return task;
+            }
+        }
+        return null;
+    }
+
     public void removeTask(Task task){
         tasks.remove(task);
     }

@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
         // (Donne une idée de comment utiliser la bdd)
         List<Task> tasks = groupToSee.getTasks();
         for (int j=0; j<tasks.size(); j++){
-            Task task = tasks.get(j);
+            final Task task = tasks.get(j);
             if (personToSee.equals("all") || personToSee.equals(task.getPerson().getName())){
                 // Créer le bouton
                 Button taskButton = new Button(this);
@@ -207,18 +207,11 @@ public class MainActivity extends AppCompatActivity {
                 // Créer les listeners dont on a besoin pour zoomer et déplacer le bouton
                 OnPinchListener onPinchListener = new OnPinchListener(taskButton);
                 ScaleGestureDetector scaleGestureDetector = new ScaleGestureDetector(getApplicationContext(), onPinchListener);
-                MultiTouchListener touchListener = new MultiTouchListener(this, scaleGestureDetector);
+                MultiTouchListener touchListener = new MultiTouchListener(this, scaleGestureDetector, task.getName(), groupToSee.getName());
                 // Ajouter les listener au bouton
                 taskButton.setOnTouchListener(touchListener);
                 // Couleur de la tâche
                 taskButton.setBackgroundColor(getResources().getColor(task.getPerson().getColorInt()));
-                // Ajouter la réaction au clic
-                taskButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Mettre ici le code à exécuter au click sur le bouton
-                    }
-                });
                 // Ajouter le bouton au layout
                 tasksLayout.addView(taskButton, layoutParams);
             }
