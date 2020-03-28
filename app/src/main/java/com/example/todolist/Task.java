@@ -31,6 +31,9 @@ public class Task {
     public int getPriority(){
         return priority;
     }
+    public void setPriority(int p) {
+        priority = p;
+    }
 
     public Group getGroup(){
         return group;

@@ -33,6 +33,12 @@
                 android:textAppearance="@style/SimpleText"
                 android:id="@+id/activity_see_task_task_name"></TextView>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/SimpleText"
+                android:id="@+id/activity_see_task_priority"></TextView>
+
     </LinearLayout>
 
     </RelativeLayout>

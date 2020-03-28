@@ -20,11 +20,13 @@ import android.widget.Toast;
 public class OnPinchListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
 
     Button button;
+    Task task;
     float factor;
 
-    public OnPinchListener(Button b) {
+    public OnPinchListener(Button b, Task task) {
         super();
         button = b;
+        this.task = task;
     }
 
     @Override
@@ -42,6 +44,13 @@ public class OnPinchListener extends ScaleGestureDetector.SimpleOnScaleGestureLi
         factor += scaleFactor;
         button.setScaleX(factor);
         button.setScaleY(factor);
+
+        // Mise à jour de la priorité de la tâche lorsqu'on change la taille
+        int newPriority = (button.getWidth()-150)/5;
+        if (newPriority >= 100)     task.setPriority(100);
+        else if (newPriority <= 0)  task.setPriority(0);
+        else                        task.setPriority(newPriority);
+
         return true;
         //return super.onScale(detector);
     }

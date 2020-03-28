@@ -14,6 +14,7 @@ public class SeeTaskActivity extends AppCompatActivity {
     private Task taskToSee; // Tâche que l'on veut afficher
 
     private TextView taskNameTextView; // TextView pour afficher le nom de la tâche
+    private TextView priorityTextView; // TextView pour afficher la priorité (valeur numérique)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +27,7 @@ public class SeeTaskActivity extends AppCompatActivity {
         this.groupsList = dataBase.getGroupsList();
 
         taskNameTextView = findViewById(R.id.activity_see_task_task_name);
+        priorityTextView = findViewById(R.id.activity_see_task_priority);
 
         // Récupérer la tâche sur laquelle on a cliqué pour ouvrir cette activity (la
         // tâche à afficher, et son groupe)
@@ -38,6 +40,7 @@ public class SeeTaskActivity extends AppCompatActivity {
 
         // Afficher le nom de la tâche
         taskNameTextView.setText(taskToSee.getName());
+        priorityTextView.setText(String.valueOf(taskToSee.getPriority()));
 
         // A compléter pour afficher les autres informations de la tâche
     }
