@@ -93,8 +93,8 @@ public class MultiTouchListener
                 longTouch = false;
 
                 // Mise à jour de la position dans les attributs de la tâche
-                task.setCoordX((int)(currX - mPrevX));
-                task.setCoordY((int)(currY - mPrevY));
+                dataBase.removeTask(task);
+                dataBase.addTask(new Task(task.getName(), task.getPriority(), task.getDeadline(), task.getGroup(), task.getPerson(), (int)(currX - mPrevX), (int)(currY - mPrevY)));
 
                 break;
             }

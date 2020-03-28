@@ -11,6 +11,7 @@ import android.graphics.drawable.ScaleDrawable;
 import android.net.LinkAddress;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.ScaleGestureDetector;
 import android.view.View;
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         // du device pour de bon)
         // Donne une idée de comment ajouter des données à la bdd
         // Créer les données
-        Group groupColoc = new Group("Coloc");
+       /* Group groupColoc = new Group("Coloc");
         Group groupIGR = new Group("Projet IGR");
         Person personMe = new Person("Moi", "yellow");
         Person personAlice = new Person("Alice", "red");
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         dataBase.addTask(task1);
         dataBase.addTask(task2);
         dataBase.addTask(task3);
-        dataBase.addTask(task4);
+        dataBase.addTask(task4);*/
         // ******************************************************************************
 
         toolbar = findViewById(R.id.activity_main_toolbar);
@@ -105,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialement, le groupe à afficher est le groupe perso
         Group groupPerso = new Group("Mes tâches personnelles");
+        Person personMe = new Person("Moi", "yellow");
         groupPerso.addPerson(personMe);
         dataBase.addGroup(groupPerso);
         this.groupToSee = groupsList.getGroup("Mes tâches personnelles");
@@ -187,6 +189,14 @@ public class MainActivity extends AppCompatActivity {
 
     // Fonction pour charger le contenu de l'activity
     public void loadContent(){
+        // Recharger la base de donnée car elle peut avoir été modifiée par MultiTouchListener
+        dataBase = new DAOBase(this);
+        dataBase.open();
+        this.groupsList = dataBase.getGroupsList();
+        // Mettre à jour groupToSee
+        groupToSee = dataBase.getGroupsList().getGroup(groupToSee.getName());
+        // Récupérer l'ensemble des tâches du groupe
+        List<Task> tasks = groupToSee.getTasks();
 
         // Titre de la page et nom du responsable
         this.setTitle(groupToSee.getName());
@@ -199,22 +209,12 @@ public class MainActivity extends AppCompatActivity {
             int color = groupToSee.getPerson(personToSee).getColorInt();
         }
 
-        // Vérifie si des tâches ont été bougées (comparaison tâche de la structure à afficher avec la bdd)
-        List<Task> tasks = groupToSee.getTasks();
-        for (int j = 0; j < tasks.size(); j++) {
-            final Task task = tasks.get(j);
-            if (task.getCoordX() != dataBase.getGroupsList().getGroup(task.getGroup().getName()).getTask(task.getName()).getCoordX()
-                || task.getCoordY() != dataBase.getGroupsList().getGroup(task.getGroup().getName()).getTask(task.getName()).getCoordY()) {
-                dataBase.removeTask(task);
-                dataBase.addTask(task);
-            }
-        }
-
         // Contenu de tasksLayout
         // (Vider avant de remplir)
         tasksLayout.removeAllViews();
         responsibleLayout.removeAllViews();
 
+        
         // Test: afficher la liste tâches du groupe et de la personne concernée
         // (Donne une idée de comment utiliser la bdd)
         for (int j=0; j<tasks.size(); j++){

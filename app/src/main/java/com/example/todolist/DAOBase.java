@@ -87,8 +87,6 @@ public class DAOBase {
 
     // Fonction pour ajouter une tâche à la table tasks
     public void addTask(Task task){
-        // Si la tâche n'existe pas déjà
-        if (!groupsList.containsTask(task)){
             // Créer un ContentValue (= ligne d'une table) correspondant à la tâche
             ContentValues value = new ContentValues();
             value.put("name", task.getName());
@@ -101,7 +99,6 @@ public class DAOBase {
             // Ajouter la ligne à la table
             mDb.insert("tasks", null, value);
             groupsList.addTask(task);
-        }
     }
 
     // Fonction pour ajouter un groupe à la table participants
