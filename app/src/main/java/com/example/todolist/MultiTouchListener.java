@@ -86,13 +86,17 @@ public class MultiTouchListener
                 currX = event.getRawX();
                 currY = event.getRawY();
 
-                // Mise à jour de la position ici
+                // Mise à jour de la position dans l'affichage
                 MarginLayoutParams marginParams = new MarginLayoutParams(view.getLayoutParams());
                 marginParams.setMargins((int)(currX - mPrevX), (int)(currY - mPrevY),0, 0);
                 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(marginParams);
                 view.setLayoutParams(layoutParams);
                 lastAction = event.getAction();
                 longTouch = false;
+
+                // Mise à jour de l'attribut position dans la bdd
+
+
                 break;
             }
 

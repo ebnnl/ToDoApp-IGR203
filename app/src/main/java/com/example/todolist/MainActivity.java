@@ -146,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
                         public void onClick(View v){
                            // Au clic sur le bouton, recharger la mainActivity avec les tâches de ce groupe
                             groupToSee = group;
+                            personToSee = "all";
                             loadContent();
                             chooseGroupDialog.dismiss();
                         }
