@@ -92,6 +92,8 @@ public class MultiTouchListener
                 lastAction = event.getAction();
                 longTouch = false;
 
+                view.bringToFront();
+
                 // Mise à jour de la position dans les attributs de la tâche
                 dataBase.removeTask(task);
                 dataBase.addTask(new Task(task.getName(), task.getPriority(), task.getDeadline(), task.getGroup(), task.getPerson(), (int)(currX - mPrevX), (int)(currY - mPrevY)));

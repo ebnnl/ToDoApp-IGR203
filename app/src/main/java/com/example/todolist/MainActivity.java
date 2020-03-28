@@ -195,7 +195,6 @@ public class MainActivity extends AppCompatActivity {
         this.groupsList = dataBase.getGroupsList();
         // Mettre à jour groupToSee
         groupToSee = dataBase.getGroupsList().getGroup(groupToSee.getName());
-        // Récupérer l'ensemble des tâches du groupe
         List<Task> tasks = groupToSee.getTasks();
 
         // Titre de la page et nom du responsable
@@ -214,7 +213,8 @@ public class MainActivity extends AppCompatActivity {
         tasksLayout.removeAllViews();
         responsibleLayout.removeAllViews();
 
-        
+
+
         // Test: afficher la liste tâches du groupe et de la personne concernée
         // (Donne une idée de comment utiliser la bdd)
         for (int j=0; j<tasks.size(); j++){
