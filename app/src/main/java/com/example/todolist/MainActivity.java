@@ -199,6 +199,17 @@ public class MainActivity extends AppCompatActivity {
             int color = groupToSee.getPerson(personToSee).getColorInt();
         }
 
+        // Vérifie si des tâches ont été bougées (comparaison tâche de la structure à afficher avec la bdd)
+        List<Task> tasks = groupToSee.getTasks();
+        for (int j = 0; j < tasks.size(); j++) {
+            final Task task = tasks.get(j);
+            if (task.getCoordX() != dataBase.getGroupsList().getGroup(task.getGroup().getName()).getTask(task.getName()).getCoordX()
+                || task.getCoordY() != dataBase.getGroupsList().getGroup(task.getGroup().getName()).getTask(task.getName()).getCoordY()) {
+                dataBase.removeTask(task);
+                dataBase.addTask(task);
+            }
+        }
+
         // Contenu de tasksLayout
         // (Vider avant de remplir)
         tasksLayout.removeAllViews();
@@ -206,7 +217,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Test: afficher la liste tâches du groupe et de la personne concernée
         // (Donne une idée de comment utiliser la bdd)
-        List<Task> tasks = groupToSee.getTasks();
         for (int j=0; j<tasks.size(); j++){
             final Task task = tasks.get(j);
             if (personToSee.equals("all") || personToSee.equals(task.getPerson().getName())){
