@@ -36,8 +36,28 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Priorité de la tâche : "
+                android:textAppearance="@style/OrangeText"
+                >
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:textAppearance="@style/SimpleText"
                 android:id="@+id/activity_see_task_priority"></TextView>
+
+            <com.example.todolist.DottedSeekBar
+                android:id="@+id/activity_see_task_priority_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_margin="20dp"
+                android:focusable="false"
+                android:max="100"
+                android:progress="50"
+                android:progressTint="@color/colorOrange"
+                android:thumbTint="@color/colorOrange"></com.example.todolist.DottedSeekBar>
 
     </LinearLayout>
 

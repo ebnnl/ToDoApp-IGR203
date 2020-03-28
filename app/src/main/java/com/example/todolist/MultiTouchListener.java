@@ -80,6 +80,8 @@ public class MultiTouchListener
 
             case MotionEvent.ACTION_MOVE:
             {
+
+                //Log.w("***********", "ACTION MOVE");
                 stopTouch = true;
                 currX = event.getRawX();
                 currY = event.getRawY();
@@ -94,9 +96,17 @@ public class MultiTouchListener
 
                 view.bringToFront();
 
-                // Mise à jour de la position dans les attributs de la tâche
+
+                // Mise à jour de la priorité de la tâche et de sa position
+                int newPriority;
+                if ((view.getScaleX()*view.getWidth()-150)/5 >= 100)     newPriority = 100;
+                else if ((view.getScaleX()*view.getWidth()-150)/5 <= 0)  newPriority = 0;
+                else                                             newPriority = ((int)(view.getScaleX()*view.getWidth())-150)/5;
+                int newPosX = (int)(currX - mPrevX);
+                int newPosY = (int)(currY - mPrevY);
+
                 dataBase.removeTask(task);
-                dataBase.addTask(new Task(task.getName(), task.getPriority(), task.getDeadline(), task.getGroup(), task.getPerson(), (int)(currX - mPrevX), (int)(currY - mPrevY)));
+                dataBase.addTask(new Task(task.getName(), newPriority, task.getDeadline(), task.getGroup(), task.getPerson(),newPosX, newPosY));
 
                 break;
             }
