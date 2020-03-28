@@ -23,8 +23,16 @@ public class OnPinchListener extends ScaleGestureDetector.SimpleOnScaleGestureLi
     Task task;
     float factor;
 
-    public OnPinchListener(Button b, Task task) {
+    private DAOBase dataBase; // Base de données sur laquelle agir
+    private GroupsList groupsList; // Ensemble des groupes
+
+    public OnPinchListener(MainActivity mainActivity, Button b, Task task) {
         super();
+        // Ouvrir la base de données
+        dataBase = new DAOBase(mainActivity);
+        dataBase.open();
+        this.groupsList = dataBase.getGroupsList();
+
         button = b;
         this.task = task;
     }
@@ -46,10 +54,16 @@ public class OnPinchListener extends ScaleGestureDetector.SimpleOnScaleGestureLi
         button.setScaleY(factor);
 
         // Mise à jour de la priorité de la tâche lorsqu'on change la taille
-        int newPriority = (button.getWidth()-150)/5;
-        if (newPriority >= 100)     task.setPriority(100);
-        else if (newPriority <= 0)  task.setPriority(0);
-        else                        task.setPriority(newPriority);
+        int newPriority;
+        if ((factor*button.getWidth()-150)/5 >= 100)     newPriority = 100;
+        else if ((factor*button.getWidth()-150)/5 <= 0)  newPriority = 0;
+        else                                             newPriority = ((int)(factor*button.getWidth())-150)/5;
+
+        Log.d("debugging", "width, factor, newPriority : " + String.valueOf(button.getWidth()) + " " +
+                String.valueOf(factor) + " " + String.valueOf(newPriority));
+
+        dataBase.removeTask(task);
+        dataBase.addTask(new Task(task.getName(), newPriority, task.getDeadline(), task.getGroup(), task.getPerson(), task.getCoordX(), task.getCoordY()));
 
         return true;
         //return super.onScale(detector);

@@ -38,6 +38,28 @@ public class SeeTaskActivity extends AppCompatActivity {
             taskToSee = groupsList.getGroup(groupName).getTask(taskName);
         }
 
+        loadData();
+    }
+
+    @Override
+    public void onRestart() {
+        loadData();
+    }
+
+    public void loadData() {
+        dataBase = new DAOBase(this);
+        dataBase.open();
+        this.groupsList = dataBase.getGroupsList();
+
+        // Récupérer la tâche sur laquelle on a cliqué pour ouvrir cette activity (la
+        // tâche à afficher, et son groupe)
+        Bundle b = getIntent().getExtras();
+        if(b != null) {
+            String taskName = b.getString("taskName");
+            String groupName = b.getString("groupName");
+            taskToSee = groupsList.getGroup(groupName).getTask(taskName);
+        }
+
         // Afficher le nom de la tâche
         taskNameTextView.setText(taskToSee.getName());
         priorityTextView.setText(String.valueOf(taskToSee.getPriority()));

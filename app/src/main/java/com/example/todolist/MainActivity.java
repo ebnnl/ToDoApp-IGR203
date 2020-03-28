@@ -233,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
                 layoutParams.leftMargin = task.getCoordX();
                 layoutParams.topMargin = task.getCoordY();
                 // Créer les listeners dont on a besoin pour zoomer et déplacer le bouton
-                OnPinchListener onPinchListener = new OnPinchListener(taskButton, task);
+                OnPinchListener onPinchListener = new OnPinchListener(this, taskButton, task);
                 ScaleGestureDetector scaleGestureDetector = new ScaleGestureDetector(getApplicationContext(), onPinchListener);
                 MultiTouchListener touchListener = new MultiTouchListener(this, scaleGestureDetector, task);
                 // Ajouter les listener au bouton
