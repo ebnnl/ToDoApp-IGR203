@@ -41,6 +41,8 @@ public class Task {
     }
 
     public int getCoordX() { return coordX; }
+    public void setCoordX(int x) { coordX = x; }
 
     public int getCoordY() { return coordY; }
+    public void setCoordY(int y) { coordY = y; }
 }

@@ -37,19 +37,17 @@ public class MultiTouchListener
     private DAOBase dataBase; // Base de données sur laquelle agir
     private GroupsList groupsList; // Ensemble des groupes
 
-    private String taskName; // Nom de la tâche qu'on a touché
-    private String groupName; // Nom du groupe de cette tâche
+    private Task task; // Tâche qu'on a touché
 
     public MainActivity mainActivity;
-    public MultiTouchListener(MainActivity mainActivity1, ScaleGestureDetector scaleGestureDetector, String taskName, String groupName) {
+    public MultiTouchListener(MainActivity mainActivity1, ScaleGestureDetector scaleGestureDetector, Task task) {
         // Ouvrir la base de données
         dataBase = new DAOBase(mainActivity1);
         dataBase.open();
         this.groupsList = dataBase.getGroupsList();
 
         mainActivity = mainActivity1;
-        this.taskName = taskName;
-        this.groupName = groupName;
+        this.task = task;
         this.scaleGestureDetector = scaleGestureDetector;
     }
 
@@ -57,7 +55,7 @@ public class MultiTouchListener
         public void run() {
             if (lastAction != MotionEvent.ACTION_MOVE){
                 // Action au touch long
-                mainActivity.displayLongTouchDialog(taskName);
+                mainActivity.displayLongTouchDialog(task.getName());
             }
         }
     };
@@ -94,8 +92,9 @@ public class MultiTouchListener
                 lastAction = event.getAction();
                 longTouch = false;
 
-                // Mise à jour de l'attribut position dans la bdd
-
+                // Mise à jour de la position dans les attributs de la tâche
+                task.setCoordX((int)(currX - mPrevX));
+                task.setCoordY((int)(currY - mPrevY));
 
                 break;
             }
@@ -123,8 +122,8 @@ public class MultiTouchListener
                         Intent seeTaskActivity = new Intent(mainActivity, SeeTaskActivity.class);
                         // Spécifier le nom de la tâche à afficher
                         Bundle b = new Bundle();
-                        b.putString("taskName", taskName);
-                        b.putString("groupName", groupName);
+                        b.putString("taskName", task.getName());
+                        b.putString("groupName", task.getGroup().getName());
                         seeTaskActivity.putExtras(b);
                         mainActivity.startActivity(seeTaskActivity);
                     }

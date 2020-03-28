@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
                 // Créer les listeners dont on a besoin pour zoomer et déplacer le bouton
                 OnPinchListener onPinchListener = new OnPinchListener(taskButton);
                 ScaleGestureDetector scaleGestureDetector = new ScaleGestureDetector(getApplicationContext(), onPinchListener);
-                MultiTouchListener touchListener = new MultiTouchListener(this, scaleGestureDetector, task.getName(), groupToSee.getName());
+                MultiTouchListener touchListener = new MultiTouchListener(this, scaleGestureDetector, task);
                 // Ajouter les listener au bouton
                 taskButton.setOnTouchListener(touchListener);
                 // Couleur de la tâche
