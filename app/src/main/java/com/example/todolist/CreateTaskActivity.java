@@ -104,6 +104,9 @@ public class CreateTaskActivity extends AppCompatActivity {
                 validateButton.setEnabled(true);
                 validateButton.setVisibility(View.VISIBLE);
                 name = nameEditText.getText().toString();
+                if (name.equals("")){
+                    validateButton.setVisibility(View.GONE);
+                }
             }
 
             @Override

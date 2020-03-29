@@ -86,6 +86,9 @@ public class CreateGroupActivity extends AppCompatActivity {
                 validateButton.setVisibility(View.VISIBLE);
                 groupName = nameEditText.getText().toString();
                 groupToAdd.setName(groupName);
+                if (groupName.equals("")){
+                    validateButton.setVisibility(View.GONE);
+                }
             }
 
             @Override

@@ -63,9 +63,7 @@ public class MainActivity extends AppCompatActivity {
         this.groupsList = dataBase.getGroupsList();
 
         // ******************************************************************************
-        // Ajout de quelques données à ajouter pour le test. Partie à commenter une fois que
-        // le code a été executé une fois (quand c'est fait une fois c'est stocké dans la bdd
-        // du device pour de bon)
+        // Ajout de quelques données à ajouter pour le test.
         // Donne une idée de comment ajouter des données à la bdd
         // Créer les données
        /* Group groupColoc = new Group("Coloc");
