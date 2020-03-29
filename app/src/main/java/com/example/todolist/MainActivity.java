@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
         this.groupToSee = groupsList.getGroup("Mes tâches personnelles");
         this.personToSee = "all";
 
+
         loadContent();
 
         // Configuration addButton
@@ -138,21 +139,23 @@ public class MainActivity extends AppCompatActivity {
                 LinearLayout buttonsLayout = chooseGroupDialog.findViewById(R.id.pop_up_choose_group_linear_layout);
                 for (int i=0; i<groups.size(); i++){
                     final Group group = groups.get(i); // Groupe correspondant au bouton
-                    Button button = new Button(MainActivity.this); // Créer le bouton
-                    button.setText(group.getName());
-                    button.setBackgroundColor(getResources().getColor(R.color.colorWhite));
-                    button.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-                    buttonsLayout.addView(button); // Ajouter le bouton au layout
-                    button.setOnClickListener(new View.OnClickListener(){
-                        @Override
-                        public void onClick(View v){
-                           // Au clic sur le bouton, recharger la mainActivity avec les tâches de ce groupe
-                            groupToSee = group;
-                            personToSee = "all";
-                            loadContent();
-                            chooseGroupDialog.dismiss();
-                        }
-                    });
+                    if (!group.getName().equals("")){
+                        Button button = new Button(MainActivity.this); // Créer le bouton
+                        button.setText(group.getName());
+                        button.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+                        button.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                        buttonsLayout.addView(button); // Ajouter le bouton au layout
+                        button.setOnClickListener(new View.OnClickListener(){
+                            @Override
+                            public void onClick(View v){
+                                // Au clic sur le bouton, recharger la mainActivity avec les tâches de ce groupe
+                                groupToSee = group;
+                                personToSee = "all";
+                                loadContent();
+                                chooseGroupDialog.dismiss();
+                            }
+                        });
+                    }
                 }
                 // Bouton pour créer un groupe
                 Button createButton = new Button(MainActivity.this);

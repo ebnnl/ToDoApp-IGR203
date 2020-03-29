@@ -53,8 +53,14 @@ public class GroupsList {
     }
 
     public void addPerson(Person person, String groupName){
-        Group group = this.getGroup(groupName);
-        group.addPerson(person);
+        if (this.getGroup(groupName)!=null){
+            Group group = this.getGroup(groupName);
+            group.addPerson(person);
+        }
+        else {
+            Group newGroup = new Group(groupName);
+            newGroup.addPerson(person);
+        }
     }
 
     public void removeTask(Task task){

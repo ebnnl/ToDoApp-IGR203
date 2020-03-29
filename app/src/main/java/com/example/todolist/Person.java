@@ -11,6 +11,14 @@ public class Person {
         this.color = color;
     }
 
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public void setColor(String color){
+        this.color = color;
+    }
+
     public String getName(){
         return this.name;
     }
@@ -31,7 +39,7 @@ public class Person {
         else if(color.equals("yellow")){
             return R.mipmap.yellow_man_foreground;
         }
-        else if(color.equals("violet")){
+        else if(color.equals("purple")){
             return R.mipmap.violet_man_foreground;
         }
         else return 0;
@@ -53,7 +61,7 @@ public class Person {
         else if(color.equals("yellow")){
             return R.mipmap.yellow_man;
         }
-        else if(color.equals("violet")){
+        else if(color.equals("purple")){
             return R.mipmap.violet_man;
         }
         else return 0;
@@ -75,7 +83,7 @@ public class Person {
         else if(color.equals("yellow")){
             return R.color.colorYellow;
         }
-        else if(color.equals("violet")){
+        else if(color.equals("purple")){
             return R.color.colorViolet;
         }
         else return 0;

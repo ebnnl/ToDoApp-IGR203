@@ -1,12 +1,18 @@
 package com.example.todolist;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -15,12 +21,15 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -33,7 +42,8 @@ public class CreateGroupActivity extends AppCompatActivity {
 
     private EditText nameEditText; // Champ pour entrer le nom de la tâche
     private FloatingActionButton validateButton; // Bouton pour enregistrer
-    private LinearLayout membersLayout;
+    private LinearLayout membersLayout; // Layout où afficher les membres
+    private Button newMemberButton; // Bouton pour créer un membre
 
     private String groupName = "New Group";    // Nom du groupe de la tâche
     private String memberName = "Moi"; // Nom du createur du groupe
@@ -54,6 +64,7 @@ public class CreateGroupActivity extends AppCompatActivity {
         nameEditText = (EditText) findViewById(R.id.activity_create_group_name_input);
         validateButton = findViewById(R.id.activity_create_group_validate);
         membersLayout = findViewById(R.id.activity_create_group_member_layout);
+        newMemberButton = findViewById(R.id.activity_create_group_new_member_button);
 
         validateButton.setEnabled(false); // Initialement, on ne peut pas valider (attendre qu'un nom
         // de groupe soit entré)
@@ -99,6 +110,70 @@ public class CreateGroupActivity extends AppCompatActivity {
             }
         });
 
+        // Réaction au bouton créer un membre
+        newMemberButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Ouvrir un dialog pour créer un membre
+                AlertDialog.Builder builder = new AlertDialog.Builder(CreateGroupActivity.this);
+                builder.setTitle("Créer un nouveau membre");
+                builder.setMessage("Nom du membre");
+
+                // Create edit text
+                Context context = builder.getContext();
+                final LinearLayout linearLayout = new LinearLayout(CreateGroupActivity.this);
+                linearLayout.setOrientation(LinearLayout.VERTICAL);
+                final EditText nameEditText = new EditText(context);
+                final Spinner colorSpinner = new Spinner(context);
+                final Person personToCreate = new Person("name", "red");
+
+                // Add the buttons
+                builder.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        String memberName = nameEditText.getText().toString();
+                        if (!memberName.equals("")){
+                            personToCreate.setName(memberName);
+                            dataBase.addPerson(personToCreate, new Group(""));
+                            updateContent(); // Mettre à jour la liste des membres
+                        }
+                    }
+                });
+
+                // Configurer le spinner pour choisir la couleur du memebre
+                List colorsList = new ArrayList<String>();
+                colorsList.add("red");
+                colorsList.add("yellow");
+                colorsList.add("orange");
+                colorsList.add("purple");
+                colorsList.add("green");
+                colorsList.add("blue");
+                ArrayAdapter adapterColor = new ArrayAdapter(context, android.R.layout.simple_spinner_item, colorsList);
+                adapterColor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                colorSpinner.setAdapter(adapterColor);
+
+                colorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        String color = (String) colorSpinner.getItemAtPosition(position);
+                        personToCreate.setColor(color);
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
+
+                // Create the AlertDialog
+                AlertDialog dialog = builder.create();
+                linearLayout.addView(nameEditText);
+                linearLayout.addView(colorSpinner);
+                dialog.setView(linearLayout, 30, 0, 30, 0);
+                dialog.show();
+            }
+        });
+
 
     }
 
@@ -106,6 +181,7 @@ public class CreateGroupActivity extends AppCompatActivity {
     public void updateContent() {
         // Récupérer la liste des personnes
         List<Person> persons = groupsList.getPersons();
+        Log.w("*************", Integer.toString(persons.size()));
         // Vider l'ensemble des radio button
         membersLayout.removeAllViews();
         // Ajouter un radio Button pour chaque personne
