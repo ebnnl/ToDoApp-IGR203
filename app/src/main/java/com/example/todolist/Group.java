@@ -19,7 +19,9 @@ public class Group {
     }
 
     public void addPerson(Person person){
-        persons.add(person);
+        if (!persons.contains(person)){
+            persons.add(person);
+        }
     }
 
     public void addTask(Task task){

@@ -105,11 +105,17 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Initialement, le groupe à afficher est le groupe perso
-        Group groupPerso = new Group("Mes tâches personnelles");
+        if (groupsList.getGroup("Mes tâches personnelles")!=null){
+            this.groupToSee = groupsList.getGroup("Mes tâches personnelles");
+        }
+        else {
+            Group groupPerso = new Group("Mes tâches personnelles");
+            this.groupToSee = groupPerso;
+            dataBase.addGroup(groupPerso);
+        }
+
         Person personMe = new Person("Moi", "yellow");
-        groupPerso.addPerson(personMe);
-        dataBase.addGroup(groupPerso);
-        this.groupToSee = groupsList.getGroup("Mes tâches personnelles");
+        groupToSee.addPerson(personMe);
         this.personToSee = "all";
 
 
