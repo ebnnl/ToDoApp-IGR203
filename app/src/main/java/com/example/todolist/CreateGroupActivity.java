@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -124,6 +125,8 @@ public class CreateGroupActivity extends AppCompatActivity {
                 final LinearLayout linearLayout = new LinearLayout(CreateGroupActivity.this);
                 linearLayout.setOrientation(LinearLayout.VERTICAL);
                 final EditText nameEditText = new EditText(context);
+                TextView textViewColor = new TextView(context);
+                textViewColor.setText("Couleur du membre :");
                 final Spinner colorSpinner = new Spinner(context);
                 final Person personToCreate = new Person("name", "red");
 
@@ -168,6 +171,7 @@ public class CreateGroupActivity extends AppCompatActivity {
                 // Create the AlertDialog
                 AlertDialog dialog = builder.create();
                 linearLayout.addView(nameEditText);
+                linearLayout.addView(textViewColor);
                 linearLayout.addView(colorSpinner);
                 dialog.setView(linearLayout, 30, 0, 30, 0);
                 dialog.show();
@@ -179,9 +183,11 @@ public class CreateGroupActivity extends AppCompatActivity {
 
         // Fonction pour mettre à jour la liste des membres
     public void updateContent() {
+        dataBase = new DAOBase(this);
+        dataBase.open();
+        groupsList = dataBase.getGroupsList();
         // Récupérer la liste des personnes
         List<Person> persons = groupsList.getPersons();
-        Log.w("*************", Integer.toString(persons.size()));
         // Vider l'ensemble des radio button
         membersLayout.removeAllViews();
         // Ajouter un radio Button pour chaque personne

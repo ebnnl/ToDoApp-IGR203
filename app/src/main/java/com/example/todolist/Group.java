@@ -74,6 +74,16 @@ public class Group {
         return false;
     }
 
+    public boolean containsPerson(String name){
+        for (int i=0; i<persons.size(); i++){
+            Person person = persons.get(i);
+            if (person.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Obtenir la première tâche dont la priorité est inférieure à priority
     public String getTaskPriorityInf(int priority){
         Task taskInf = new Task("priority0", 0, null, null, null, 0, 0);

@@ -105,17 +105,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Initialement, le groupe à afficher est le groupe perso
-        if (groupsList.getGroup("Mes tâches personnelles")!=null){
-            this.groupToSee = groupsList.getGroup("Mes tâches personnelles");
+        Group groupPerso = new Group("Mes tâches personnelles");
+        this.groupToSee = groupPerso;
+        if (!groupPerso.containsPerson("Moi")){
+            Person personMe = new Person("Moi", "yellow");
+            groupToSee.addPerson(personMe);
         }
-        else {
-            Group groupPerso = new Group("Mes tâches personnelles");
-            this.groupToSee = groupPerso;
-            dataBase.addGroup(groupPerso);
-        }
-
-        Person personMe = new Person("Moi", "yellow");
-        groupToSee.addPerson(personMe);
+        dataBase.addGroup(groupPerso);
         this.personToSee = "all";
 
 
@@ -174,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         Intent createGroupActivity = new Intent(MainActivity.this, CreateGroupActivity.class);
                         startActivity(createGroupActivity);
+                        chooseGroupDialog.dismiss();
                     }
                 });
 
