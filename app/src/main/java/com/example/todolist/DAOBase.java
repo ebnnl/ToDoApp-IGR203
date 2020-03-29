@@ -103,7 +103,7 @@ public class DAOBase {
 
     // Fonction pour ajouter un groupe à la table participants
     public void addGroup(Group group){
-        if (!groupsList.contains(group.getName())){
+        //if (!groupsList.contains(group.getName())){
             List<Person> persons = group.getPersons();
             // Pour chaque personne du groupe, créer une ligne dans la table participants
             for (int i=0; i<persons.size(); i++){
@@ -115,7 +115,7 @@ public class DAOBase {
                 mDb.insert("participants", null, value);
             }
             groupsList.addGroup(group);
-        }
+        //}
     }
 
     // Fonction pour ajouter une personne à un groupe
