@@ -48,4 +48,8 @@ public class Task {
 
     public int getCoordY() { return coordY; }
     public void setCoordY(int y) { coordY = y; }
+
+    public void setName(String s){
+        this.name = s;
+    }
 }

@@ -220,35 +220,6 @@ public class CreateTaskActivity extends AppCompatActivity {
                     priorityEqualTextView.setText("Egale à "+taskEqual.toLowerCase());
                 }
 
-                // J'avais fait ça pour que le texte suive le curseur mais c'était moche,
-                // vous pouvez le décommenter pour voir
-                /*// Position du curseur
-                int x = seekBar.getThumb().getBounds().centerX();
-                // Largeur de l'écran
-                Display display = getWindowManager().getDefaultDisplay();
-                Point size = new Point();
-                display.getSize(size);
-                int width = size.x;
-                // Largeur du texte
-                int widthInf = priorityInfTextView.getWidth();
-                int widthSup = prioritySupTextView.getWidth();
-                int widthEqual = priorityEqualTextView.getWidth();
-                // Afficher le texte au niveau du curseur sans qu'il ne sorte de l'écran
-                int xTextInf = x;
-                int xTextSup = x;
-                int xTextEqual = x;
-                if (xTextInf+widthInf+100>width){
-                    xTextInf = width-widthInf-100;
-                }
-                if (xTextSup+widthSup+100>width){
-                    xTextSup = width-widthSup-100;
-                }
-                if (xTextEqual+widthEqual+100>width){
-                    xTextEqual = width-widthEqual-100;
-                }
-                priorityInfTextView.setX(xTextInf);
-                prioritySupTextView.setX(xTextSup);
-                priorityEqualTextView.setX(xTextEqual);*/
             }
 
             @Override
