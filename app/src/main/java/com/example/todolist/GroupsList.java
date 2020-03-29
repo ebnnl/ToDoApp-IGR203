@@ -72,6 +72,23 @@ public class GroupsList {
         return names;
     }
 
+    public List<Person> getPersons(){
+        List<Person> personsList = new ArrayList<Person>();
+        List<String> personsNames = new ArrayList<String>();
+        for (int i=0; i<list.size(); i++){
+            Group group = list.get(i);
+            List<Person> persons = group.getPersons();
+            for (int j=0; j<persons.size(); j++){
+                Person person = persons.get(j);
+                if (!personsNames.contains(person.getName())){
+                    personsList.add(person);
+                    personsNames.add(person.getName());
+                }
+            }
+        }
+        return personsList;
+    }
+
     public void removeGroup(Group group){
         list.remove(group);
     }

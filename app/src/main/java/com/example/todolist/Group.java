@@ -111,4 +111,12 @@ public class Group {
         }
         return "";
     }
+
+    public void setName(String s){
+        this.name=s;
+    }
+
+    public void removePerson(Person person){
+        persons.remove(person);
+    }
 }

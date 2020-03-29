@@ -41,20 +41,15 @@
                 android:textAppearance="@style/OrangeText"></TextView>
 
             <HorizontalScrollView
-                android:id="@+id/activity_create_group_member_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <RadioGroup
-                    android:id="@+id/activity_create_group_member_group"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:isScrollContainer="true"
-                    android:orientation="horizontal">
-
-                </RadioGroup>
+                    android:orientation="horizontal"
+                    android:id="@+id/activity_create_group_member_layout"></LinearLayout>
 
             </HorizontalScrollView>
 

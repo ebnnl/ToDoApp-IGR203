@@ -8,7 +8,11 @@ import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -29,11 +33,11 @@ public class CreateGroupActivity extends AppCompatActivity {
 
     private EditText nameEditText; // Champ pour entrer le nom de la tâche
     private FloatingActionButton validateButton; // Bouton pour enregistrer
-    private RadioGroup memberRadioGroup; // Ensemble de radio button pour choisir le responsable
+    private LinearLayout membersLayout;
 
     private String groupName = "New Group";    // Nom du groupe de la tâche
     private String memberName = "Moi"; // Nom du createur du groupe
-    private Group group = new Group(groupName);
+    private Group groupToAdd = new Group(groupName);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +53,7 @@ public class CreateGroupActivity extends AppCompatActivity {
 
         nameEditText = (EditText) findViewById(R.id.activity_create_group_name_input);
         validateButton = findViewById(R.id.activity_create_group_validate);
-        memberRadioGroup = findViewById(R.id.activity_create_group_member_group);
+        membersLayout = findViewById(R.id.activity_create_group_member_layout);
 
         validateButton.setEnabled(false); // Initialement, on ne peut pas valider (attendre qu'un nom
         // de groupe soit entré)
@@ -69,6 +73,7 @@ public class CreateGroupActivity extends AppCompatActivity {
                 validateButton.setEnabled(true);
                 validateButton.setVisibility(View.VISIBLE);
                 groupName = nameEditText.getText().toString();
+                groupToAdd.setName(groupName);
             }
 
             @Override
@@ -86,7 +91,7 @@ public class CreateGroupActivity extends AppCompatActivity {
                 Toast toast = Toast.makeText(CreateGroupActivity.this, "Groupe créée", duration);
                 toast.show();
                 // Ajouter le groupe à la base
-                dataBase.addGroup(group);
+                dataBase.addGroup(groupToAdd);
 
                 // Revenir à l'activité principale
                 CreateGroupActivity.this.finish();
@@ -94,47 +99,45 @@ public class CreateGroupActivity extends AppCompatActivity {
             }
         });
 
-        // Réaction au choix du responsable :
-        memberRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                List<Group> groups = groupsList.getList();
-                for (int i = 0; i < groups.size(); i++) {
-                    Group groupaux = groups.get(i);
-                    List<Person> persons = groupaux.getPersons();
-                    memberName = persons.get(checkedId).getName();
-                }
-            }
-
-        });
     }
 
         // Fonction pour mettre à jour la liste des membres
     public void updateContent() {
         // Récupérer la liste des personnes
-        List<Group> groups = groupsList.getList();
-        List<Person> persons = groupsList.getGroup(groups.get(0).getName()).getPersons();
-        for (int i = 1; i < groups.size(); i++) {
-            Group groupaux = groups.get(i);
-            persons.addAll(groupaux.getPersons());
-            }
+        List<Person> persons = groupsList.getPersons();
         // Vider l'ensemble des radio button
-        memberRadioGroup.removeAllViews();
+        membersLayout.removeAllViews();
         // Ajouter un radio Button pour chaque personne
         for (int i = 0; i < persons.size(); i++) {
-            Person person = persons.get(i);
-            RadioButton radioButtonPerson = new RadioButton(this);
-            radioButtonPerson.setText(person.getName());
-            radioButtonPerson.setId(i);
+            final Person person = persons.get(i);
+            final CheckBox checkBoxPerson = new CheckBox((this));
+            checkBoxPerson.setText(person.getName());
+            checkBoxPerson.setId(i);
             int image = person.getImage();
             Drawable img = this.getResources().getDrawable(image);
             img.setBounds(0, 0, 150, 150);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                radioButtonPerson.setBackground(img);
+                checkBoxPerson.setBackground(img);
             }
-            radioButtonPerson.setGravity(Gravity.BOTTOM);
-            memberRadioGroup.addView(radioButtonPerson);
+            checkBoxPerson.setGravity(Gravity.BOTTOM);
+
+            // Réaction au check
+            checkBoxPerson.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+                    if (isChecked){
+                        groupToAdd.addPerson(person);
+                    }
+                    else {
+                        groupToAdd.removePerson(person);
+                    }
+                }
+
+            });
+
+
+            membersLayout.addView(checkBoxPerson);
         }
 
 
