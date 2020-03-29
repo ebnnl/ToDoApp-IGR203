@@ -73,7 +73,9 @@ public class GroupsList {
         List<String> names = new ArrayList<String>();
         for (int i=0; i<list.size(); i++){
             Group group = list.get(i);
-            names.add(group.getName());
+            if (!group.getName().equals((""))){
+                names.add(group.getName());
+            }
         }
         return names;
     }

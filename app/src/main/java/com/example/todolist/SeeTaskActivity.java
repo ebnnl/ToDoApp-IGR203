@@ -71,13 +71,14 @@ public class SeeTaskActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                dataBase.removeTask(taskToSee);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 taskToSee.setName(taskNameEditText.getText().toString());
                 postIt.setText(taskNameEditText.getText().toString());
+                dataBase.addTask(taskToSee);
             }
         });
 
