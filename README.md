@@ -1,6 +1,7 @@
 # ToDoApp-IGR203
-Repository for code of a ToDo List app. Final Project of the Interaction Homme-Machine (IGR203) course @ Telecom Paris.
-Android app to organise tasks with different priorities in a group.
+Repository for code of a ToDo List app. Final Project of the User-Centered Design (IGR203) course @ Telecom Paris.
+
+The design of this application was done following the principles of user-centered design.
 
 **Link to demo video :** https://drive.google.com/file/d/134D5VS6fxOZxJKMCOHiIAYIHypip5_ZV/view?usp=sharing
 
