@@ -1,6 +1,8 @@
 # ToDoApp-IGR203
 Repository for code of a ToDo List app. Final Project of the Interaction Homme-Machine (IGR203) course @ Telecom Paris.
 
+**Link to demo video :** https://drive.google.com/file/d/134D5VS6fxOZxJKMCOHiIAYIHypip5_ZV/view?usp=sharing
+
 ## Fonctionnalités implémentées
 Pour ce prototype d’application de to-do list, nous avons implémenté les fonctionnalités suivantes :
 - Créer un groupe
